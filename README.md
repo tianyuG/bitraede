@@ -17,7 +17,7 @@ See individual README files for each platform.
 ## FAQs
 
 ### Why is Linux not currently supported?
-biträde was designed to streamline software deployment for DISIS computers. At DISIS, we have around 10 Macs, 10 PCs and one computer running Ubuntu. It simply isn’t practival to create a separate script for Linux at this stage. 
+biträde was designed to streamline software deployment for DISIS computers. At DISIS, we have around 10 Macs, 10 PCs and one computer running Ubuntu. It simply isn’t practical to create a separate script for Linux at this stage. 
 
 ### Why is biträde needed in the first place?
 Several considerations. Here’s three to start with:
@@ -27,8 +27,9 @@ Several considerations. Here’s three to start with:
 
 ### Why not use Swift on Mac?
 _i.e._, Why use scripting languages?
-No need to compile. Just run the script _et voila_.
+
+No need to compile. No need to worry about signing (well, mostly). Just run the script _et voila_.
 
 ### What do I need to know to use biträde?
-Not much. You’ll need to copy the files to designated folders and tell biträde what it need to do with them. This involves editing a simple text file. See README files for each platform for documentation. 
+Not much. You’ll need to copy the files to designated folders and optionally create scripts for biträde to execute. This involves editing a simple text file. See README files for each platform for documentation. 
 You will also need to know the admin password for the computers at DISIS for biträde to actually do something.
