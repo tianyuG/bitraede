@@ -20,7 +20,7 @@ dot_clean .
 # Check if source folder exists
 if [ -d "./maxplugins" ] ; then
 	# Check if source folder is empty
-	if [ "$(ls -A ./maxplugins)" ] ; then
+	if [ "$(ls ./maxplugins)" ] ; then
 		printf "%s: [maxplugins]    \`maxplugins\` folder not empty. Attempt to copy Max 7 plugins.\n" "$(date +%T)"
 		# Check if destination folder exists
 		if [ -d "/Users/Shared/Max 7/Packages" ] ; then 
@@ -50,7 +50,7 @@ fi
 # Check if source folder exists
 if [ -d "./vst2" ] ; then
 	# Check if source folder is empty
-	if [ "$(ls -A ./vst2)" ] ; then
+	if [ "$(ls ./vst2)" ] ; then
 		printf "%s: [vst2]          \`vst2\` folder not empty. Attempt to copy VST2 plugins.\n" "$(date +%T)"
 		# Check is destination folder exists
 		if [ -d "/Library/Audio/Plug-Ins/VST" ] ; then
@@ -74,7 +74,7 @@ fi
 # Check if source folder exists
 if [ -d "./vst3" ] ; then
 	# Check if source folder is empty
-	if [ "$(ls -A ./vst3)" ] ; then
+	if [ "$(ls ./vst3)" ] ; then
 		printf "%s: [vst3]          \`vst3\` folder not empty. Attempt to copy VST3 plugins.\n" "$(date +%T)"
 		# Check is destination folder exists
 		if [ -d "/Library/Audio/Plug-Ins/VST3" ] ; then
@@ -98,7 +98,7 @@ fi
 # Check if source folder exists
 if [ -d "./audiounits" ] ; then
 	# Check if source folder is empty
-	if [ "$(ls -A ./audiounits)" ] ; then
+	if [ "$(ls ./audiounits)" ] ; then
 		printf "%s: [audiounits]    audiounits folder not empty. Attempt to copy Audio Units plugins.\n" "$(date +%T)"
 		# Check is destination folder exists
 		if [ -d "/Library/Audio/Plug-Ins/Components" ] ; then
