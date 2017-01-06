@@ -84,7 +84,7 @@ For files/folders in `maxplugins`, they will be copied to Max's plugin folder in
 
 For `.pkg` files [^4] in `packages`, they will be executed sequencially. Elevated permission is required.
 
-For `.app` files [^4] in `applications`, they will be copied to `/Applications`. Elevated permission is required. If the `.app` file happens to be custom installers (usually the installers have the `.pkg` extension), do not leave them in this folder. Instead, please write a shell script for them.
+For `.app` files [^5] in `applications`, they will be copied to `/Applications`. Elevated permission is required. If the `.app` file happens to be custom installers (usually the installers have the `.pkg` extension), do not leave them in this folder. Instead, please write a shell script for them.
 
 A special case for the `.app` installers is macOS installation file. For macOS installer, please leave it in the `system` folder. If a macOS installer file is found, this script will attempt to upgrade OS X/macOS currently installed on the target computer to the version contained in the installer. Elevated permission is required.
 
@@ -98,10 +98,10 @@ If elevated permission is required, you will be asked to authenticate with an ac
 
 ## FAQ
 ### Q1: Application 'can't be opened because it is from an unidentified developer'?
-A1: This is because the application is not signed with a valid developer ID and Gatekeeper prevented it from running [^5]. If you indeed trust the app, you can exempt it from Gatekeeper. To do so, right click (or left click whilst holding option key) on the app icon in 'Applications' folder and choose 'Open'. When asked 'Are you sure you want to open it', click 'Open'. Optionaly you can disable Gatekeeper, however this is not recommened for security reasons. See [^5] if you really want to do that.
+A1: This is because the application is not signed with a valid developer ID and Gatekeeper prevented it from running [^6]. If you indeed trust the app, you can exempt it from Gatekeeper. To do so, right click (or left click whilst holding option key) on the app icon in 'Applications' folder and choose 'Open'. When asked 'Are you sure you want to open it', click 'Open'. Optionaly you can disable Gatekeeper, however this is not recommened for security reasons. See [^7] if you really want to do that.
 
 ### Q2: Application 'is damaged and can't be opened. You should move it to the Trash'?
-A2: In most cases it means the application itself is damaged and Gatekeeper prevented it from running [^5]. Most of the time is it best to follow the suggestion and move the application to Trash. Occasionally it is caused by execution triad for the application not set correctly. If you trust the publisher and the application, you can try to open Terminal, type `chmod +x␣` (`␣` being a whitespace), open Finder, go to 'Applications' folder and locate the application, right click (or left click whilst holding option key) on the app, click 'Show Package Contents', navigate to Contents > MacOS, drag the binary file (usually nemed the same as the application and has an icon resembles Terminal) to the Terminal window and press return. Then, close the Finder window and try open the application.
+A2: In most cases it means the application itself is damaged and Gatekeeper prevented it from running [^8]. Most of the time is it best to follow the suggestion and move the application to Trash. Occasionally it is caused by execution triad for the application not set correctly. If you trust the publisher and the application, you can try to open Terminal, type `chmod +x␣` (`␣` being a whitespace), open Finder, go to 'Applications' folder and locate the application, right click (or left click whilst holding option key) on the app, click 'Show Package Contents', navigate to Contents > MacOS, drag the binary file (usually nemed the same as the application and has an icon resembles Terminal) to the Terminal window and press return. Then, close the Finder window and try open the application.
 
 ### Q3: How is the codesigning policy enforced?
 A3: In short, only the signature for macOS upgrade (`.app`) is verified. Signautures for `.pkg` files and other `.app` files are not checked. It is, therefore, up to the sysadmin to make sure the applications/packages are legit. 
@@ -112,7 +112,7 @@ A4: Many possible reasons, not limited to the following:
 * The macOS version in the installer is older than the one already installed.
 * The code signature of the installer is not valid.
 	* This usually indicates the installer is corrupt.
-	* This only apply to OS X installers downloaded before 2016-02-14: Apple's updated certificate rendered them invalid [^6]. It is possible to circumvent the check by modifying system time [^7], however it is recommended to download a new one from Mac App Store.
+	* This only apply to OS X installers downloaded before 2016-02-14: Apple's updated certificate rendered them invalid [^9]. It is possible to circumvent the check by modifying system time [^10], however it is recommended to download a new one from Mac App Store.
 
 ### Q5: What is the opearating sequence?
 `maxpackages` 
@@ -133,10 +133,24 @@ A4: Many possible reasons, not limited to the following:
 
 All operations are optional.
 
+
+
 [^1]: [https://pythonhosted.org/Markdown/index.html](https://pythonhosted.org/Markdown/index.html)
+
 [^2]: Other options are currently being explored, which would make things easier. If they work.
+
 [^3]: Terminal.app is located in `/Applications/Utilities/Terminal.app`.
-[^4]: They are actually folders... Technically 'directories', to be pedantic.
-[^5]: [https://support.apple.com/en-us/HT202491](https://support.apple.com/en-us/HT202491)
-[^6]: [http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/](http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/)
-[^7]: [http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/](http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/)
+
+[^4]: They are actually folders.
+
+[^5]: Also actually folders. Technically 'directories', to be pedantic.
+
+[^6]: [https://support.apple.com/en-us/HT202491](https://support.apple.com/en-us/HT202491)
+
+[^7]: _Loc. cit._
+
+[^8]: _Loc. cit._
+
+[^9]: [http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/](http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/)
+
+[^10]: [http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/](http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/)

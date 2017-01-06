@@ -413,7 +413,7 @@ kbd {
 
 <p>For <code>.pkg</code> files <sup id="fnref4"><a href="#fn4" rel="footnote">4</a></sup> in <code>packages</code>, they will be executed sequencially. Elevated permission is required.</p>
 
-<p>For <code>.app</code> files [^4] in <code>applications</code>, they will be copied to <code>/Applications</code>. Elevated permission is required. If the <code>.app</code> file happens to be custom installers (usually the installers have the <code>.pkg</code> extension), do not leave them in this folder. Instead, please write a shell script for them.</p>
+<p>For <code>.app</code> files <sup id="fnref5"><a href="#fn5" rel="footnote">5</a></sup> in <code>applications</code>, they will be copied to <code>/Applications</code>. Elevated permission is required. If the <code>.app</code> file happens to be custom installers (usually the installers have the <code>.pkg</code> extension), do not leave them in this folder. Instead, please write a shell script for them.</p>
 
 <p>A special case for the <code>.app</code> installers is macOS installation file. For macOS installer, please leave it in the <code>system</code> folder. If a macOS installer file is found, this script will attempt to upgrade OS X/macOS currently installed on the target computer to the version contained in the installer. Elevated permission is required.</p>
 
@@ -429,11 +429,11 @@ kbd {
 
 <h3 id="toc_5">Q1: Application &#39;can&#39;t be opened because it is from an unidentified developer&#39;?</h3>
 
-<p>A1: This is because the application is not signed with a valid developer ID and Gatekeeper prevented it from running <sup id="fnref5"><a href="#fn5" rel="footnote">5</a></sup>. If you indeed trust the app, you can exempt it from Gatekeeper. To do so, right click (or left click whilst holding option key) on the app icon in &#39;Applications&#39; folder and choose &#39;Open&#39;. When asked &#39;Are you sure you want to open it&#39;, click &#39;Open&#39;. Optionaly you can disable Gatekeeper, however this is not recommened for security reasons. See [^5] if you really want to do that.</p>
+<p>A1: This is because the application is not signed with a valid developer ID and Gatekeeper prevented it from running <sup id="fnref6"><a href="#fn6" rel="footnote">6</a></sup>. If you indeed trust the app, you can exempt it from Gatekeeper. To do so, right click (or left click whilst holding option key) on the app icon in &#39;Applications&#39; folder and choose &#39;Open&#39;. When asked &#39;Are you sure you want to open it&#39;, click &#39;Open&#39;. Optionaly you can disable Gatekeeper, however this is not recommened for security reasons. See <sup id="fnref7"><a href="#fn7" rel="footnote">7</a></sup> if you really want to do that.</p>
 
 <h3 id="toc_6">Q2: Application &#39;is damaged and can&#39;t be opened. You should move it to the Trash&#39;?</h3>
 
-<p>A2: In most cases it means the application itself is damaged and Gatekeeper prevented it from running [^5]. Most of the time is it best to follow the suggestion and move the application to Trash. Occasionally it is caused by execution triad for the application not set correctly. If you trust the publisher and the application, you can try to open Terminal, type <code>chmod +x␣</code> (<code>␣</code> being a whitespace), open Finder, go to &#39;Applications&#39; folder and locate the application, right click (or left click whilst holding option key) on the app, click &#39;Show Package Contents&#39;, navigate to Contents &gt; MacOS, drag the binary file (usually nemed the same as the application and has an icon resembles Terminal) to the Terminal window and press return. Then, close the Finder window and try open the application.</p>
+<p>A2: In most cases it means the application itself is damaged and Gatekeeper prevented it from running <sup id="fnref8"><a href="#fn8" rel="footnote">8</a></sup>. Most of the time is it best to follow the suggestion and move the application to Trash. Occasionally it is caused by execution triad for the application not set correctly. If you trust the publisher and the application, you can try to open Terminal, type <code>chmod +x␣</code> (<code>␣</code> being a whitespace), open Finder, go to &#39;Applications&#39; folder and locate the application, right click (or left click whilst holding option key) on the app, click &#39;Show Package Contents&#39;, navigate to Contents &gt; MacOS, drag the binary file (usually nemed the same as the application and has an icon resembles Terminal) to the Terminal window and press return. Then, close the Finder window and try open the application.</p>
 
 <h3 id="toc_7">Q3: How is the codesigning policy enforced?</h3>
 
@@ -449,7 +449,7 @@ kbd {
 
 <ul>
 <li>This usually indicates the installer is corrupt.</li>
-<li>This only apply to OS X installers downloaded before 2016-02-14: Apple&#39;s updated certificate rendered them invalid <sup id="fnref6"><a href="#fn6" rel="footnote">6</a></sup>. It is possible to circumvent the check by modifying system time <sup id="fnref7"><a href="#fn7" rel="footnote">7</a></sup>, however it is recommended to download a new one from Mac App Store.</li>
+<li>This only apply to OS X installers downloaded before 2016-02-14: Apple&#39;s updated certificate rendered them invalid <sup id="fnref9"><a href="#fn9" rel="footnote">9</a></sup>. It is possible to circumvent the check by modifying system time <sup id="fnref10"><a href="#fn10" rel="footnote">10</a></sup>, however it is recommended to download a new one from Mac App Store.</li>
 </ul></li>
 </ul>
 
@@ -490,19 +490,31 @@ kbd {
 </li>
 
 <li id="fn4">
-<p>They are actually folders... Technically &#39;directories&#39;, to be pedantic.&nbsp;<a href="#fnref4" rev="footnote">&#8617;</a></p>
+<p>They are actually folders.&nbsp;<a href="#fnref4" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn5">
-<p><a href="https://support.apple.com/en-us/HT202491">https://support.apple.com/en-us/HT202491</a>&nbsp;<a href="#fnref5" rev="footnote">&#8617;</a></p>
+<p>Also actually folders. Technically &#39;directories&#39;, to be pedantic.&nbsp;<a href="#fnref5" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn6">
-<p><a href="http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/">http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/</a>&nbsp;<a href="#fnref6" rev="footnote">&#8617;</a></p>
+<p><a href="https://support.apple.com/en-us/HT202491">https://support.apple.com/en-us/HT202491</a>&nbsp;<a href="#fnref6" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn7">
-<p><a href="http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/">http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/</a>&nbsp;<a href="#fnref7" rev="footnote">&#8617;</a></p>
+<p><em>Loc. cit.</em>&nbsp;<a href="#fnref7" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn8">
+<p><em>Loc. cit.</em>&nbsp;<a href="#fnref8" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn9">
+<p><a href="http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/">http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/</a>&nbsp;<a href="#fnref9" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn10">
+<p><a href="http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/">http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/</a>&nbsp;<a href="#fnref10" rev="footnote">&#8617;</a></p>
 </li>
 
 </ol>
