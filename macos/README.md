@@ -17,7 +17,7 @@ echo hello world!
 If you are looking at the html file, you won't see the backticks mentioned above.
 
 ## Usage
-This script does not come with the execution permission enabled by default. Therefore, if you double click it, you should only see a terminal window flashing and nothing would be done to the system [^2]. To flip the execution triads, open Terminal by [^3]:
+In order to run this script, it must be marked as executable. By default, double clicking on `bitraede.command` should be enough. However, if you double click it and only see a terminal window flashing by, you will need to mark the script to be executable [^2]. To do so, open Terminal by [^3]:
 
 * Clicking on the magnifying glass icon (the default keyboard shortcut is ⌘Space) on top-right side of the screen, start typing 'terminal' and press return when Terminal is selected, or,
 * Open Finder and click on Application > Utilities > Terminal.app.
@@ -36,7 +36,7 @@ Then, drag the script file, `bitraede.command`, into the Terminal window. The Te
 chmod +x /Volume/flashdrive/macos/bitraede.command
 ```
 
-Press return to flip the execution triads. If this script is saved on a removable device and this removable device is used amongst different Macs, you will only need to do it once.
+Press return to flip the execution triads. If this script is saved on a removable device and this removable device is used amongst different Macs, you should only need to do it once.
 
 Once proper execution permission is set, double click `bitrade.command` to execute this script.
 
@@ -49,36 +49,36 @@ bitraede
     |   bitraede.command
     |   README.html
     |   README.md
+    |---applications
+        |   (.app files OR empty)
+        |   ...
+    |---audiounits
+        |   (AU plugins OR empty)
+        |   ...
+    |---maxplugins
+        |   (Max 7 plugins OR empty)
+        |   ...
     |---pacakges
         |   (.pkg files OR empty)
         |   ...
+    |---scripts
+        |   (custom script files OR empty)
+        |   ...
+    |---system
+        |   (macOS installer, an .app file)
+        |   (OR a file named CHECK_UPDATE)
+        |   (OR empty)
     |---vst2
         |   (VST2 plugins OR empty)
         |   ...
     |---vst3
         |   (VST3 plugins OR empty)
         |   ...
-    |---audiounit
-        |   (AU plugins OR empty)
-        |   ...
-    |---maxplugins
-        |   (Max 7 plugins OR empty)
-        |   ...
-    |---applications
-        |   (.app files OR empty)
-        |   ...
-    |---system
-        |   (macOS installer, an .app file)
-        |   (OR a file named CHECK_UPDATE)
-        |   (OR empty)
-    |---scripts
-        |   (custom script files OR empty)
-        |   ...
 ```
 
 Please leave files/folders in respective folders.
 
-For files/folders in `vst2`, `vst3` and `audiounit` folders, they will be copied to respective folders in `/Library`. As such, elevated permission is required.
+For files/folders in `vst2`, `vst3` and `audiounits` folders, they will be copied to respective folders in `/Library`. As such, elevated permission is required.
 
 For files/folders in `maxplugins`, they will be copied to Max's plugin folder in `/Users/Shared/Max 7/`. No special permission is required.
 
@@ -115,23 +115,13 @@ A4: Many possible reasons, not limited to the following:
 	* This only apply to OS X installers downloaded before 2016-02-14: Apple's updated certificate rendered them invalid [^9]. It is possible to circumvent the check by modifying system time [^10], however it is recommended to download a new one from Mac App Store.
 
 ### Q5: What is the opearating sequence?
-`maxpackages` 
+A5: `vst2` -> `vst3` -> `audiounits` -> `applications` -> `packages` -> `maxpackages` -> `scripts` -> `system` (upgrade or update).
 
--> `vst2` 
+All operations are optional. If packages are installed or system update is performed, after the script is complete, you will be prompted to reboot with a 10-second timeout. If the package does not require rebooting or if you simply want to postpone reboot, cancel it during the timeout. System upgrade will always result in a reboot.
 
--> `vst3` 
+### Q6: Why biträde cannot be run with `sudo`?
+A6: For security concerns. If `sudo ./bitraede.command` is allowed, everything in this script will be executed with elevated permissions, which is not only not necessary but also can be potentially dangerous, especially with custom scripts. 
 
--> `audiounit` 
-
--> `applications` 
-
--> `packages` 
-
--> `scripts` 
-
--> `system` (upgrade or update).
-
-All operations are optional.
 
 
 
