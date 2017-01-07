@@ -123,7 +123,7 @@ A5: `vst2` -> `vst3` -> `audiounits` -> `applications` -> `packages` -> `maxpack
 All operations are optional. If packages are installed or system update is performed, after the script is complete, you will be prompted to reboot with a 10-second timeout. If the package does not require rebooting or if you simply want to postpone reboot, cancel it during the timeout. System upgrade will always result in a reboot.
 
 ### Q6: Why biträde cannot be run with `sudo`?
-A6: For security concerns. If `sudo ./bitraede.command` is allowed, everything in this script will be executed with elevated permissions, which is not only not necessary but also can be potentially dangerous, especially with custom scripts. 
+A6: For security concerns. If `sudo ./bitraede.command` is allowed, everything in this script will be executed with elevated permissions, which is not only not necessary but also can be potentially dangerous, especially with custom scripts [^12]. 
 
 ### Q7: What version of OS X/macOS can I upgrade to with biträde?
 A7: All iMacs in DISIS have OS X 10.11 installed, so it can be upgraded to macOS 10.12 or higher. biträde also utilises a tool called `startosinstall`, which are not available in OS X 10.10 installer or earlier versions.
@@ -137,10 +137,10 @@ In addition, if you choose to update the system, the software updater will also 
 A9: The only official way is through Mac App Store. **Do not download it from internet** as it can be manipulated (even though biträde will probably reject it as it won't pass codesigning verification). **Do not share the installer with others** as it contains an Mac App Store receipt (which can be traced back to who released the installer). 
 
 ### Q10: Why not use flags (`--reboot-required`, for example) instead of special files?
-A10: This is intensional. biträde is designed with the assumption that the maintainer may not have too much experience with UNIX, and double clicking on the script would be easier for the maintainer (rather than figuring out how to run the script with flags). It is also not practical to wait for user input as it is designed to reduce user input. That said, you can use `--check-update` and/or `--reboot-required` instead.
+A10: This is intensional. biträde is designed with the assumption that the maintainer may not have too much experience with UNIX, and double clicking on the script would be easier for the maintainer (rather than figuring out how to run the script with flags). It is also not practical to wait for user input as it is designed to reduce user input. That said, this script is not designed to be invoked in Terminal directly. 
 
 ## Notes for scripting
-* Do not use scripting unless you fully understand what you are doing [^12].
+* Do not use scripting unless you fully understand what you are doing [^13].
 * If an command requires elevated permission, use `sudo` in front of the line that really needs it. Avoid using `su`. 
 * Test the script before deploying to production.
 * Scripts must use `.sh` or `.command` file extensions. UTI is not checked.
@@ -171,4 +171,6 @@ A10: This is intensional. biträde is designed with the assumption that the main
 
 [^11]: [http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/](http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/)
 
-[^12]: My dad got me a computer tutoring software soon after I first used a laptop. The software featured a section, paraphrased 'DO NOT DO THIS IF YOU ARE A NEWBIE', prominently. I immediately disregarded the advise and used `FORMAT C:\` in `COMMAND.COM`. Hilarity ensues. Thanks for showing me what I shan't do, people who made that software. /s
+[^12]: The other reason that you should not invoke this script with `./bitraede.command` is currently part of the script cannot expand `./` to an absolute path.
+
+[^13]: My dad got me a computer tutoring software soon after I first used a laptop. The software featured a section, paraphrased 'DO NOT DO THIS IF YOU ARE A NEWBIE', prominently. I immediately disregarded the advise and used `FORMAT C:\` in `COMMAND.COM`. Hilarity ensues. Thanks for showing me what I shan't do, people who made that software. /s

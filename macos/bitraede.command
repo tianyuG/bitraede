@@ -13,6 +13,7 @@ if [ "$EUID" -eq 0 ] ; then
 fi
 
 # Clean up folder by removing files like .DS_Store
+echo $(dirname "$0")
 cd $(dirname "$0")
 dot_clean .
 
@@ -21,7 +22,7 @@ dot_clean .
 if [ -d "./maxplugins" ] ; then
 	# Check if source folder is empty
 	if [ "$(ls ./maxplugins)" ] ; then
-		printf "%s: [maxplugins]    \`maxplugins\` folder not empty. Attempt to copy Max 7 plugins.\n" "$(date +%T)"
+		printf "%s: [maxplugins] \`maxplugins\` folder not empty. Attempt to copy Max 7 plugins.\n" "$(date +%T)"
 		# Check if destination folder exists
 		if [ -d "/Users/Shared/Max 7/Packages" ] ; then 
 			cp -a ./maxplugins/ /Users/Shared/Max\ 7/Packages
@@ -29,21 +30,21 @@ if [ -d "./maxplugins" ] ; then
 			if [ $? -ne 0 ] ; then
 				sudo cp -a ./maxplugins /Users/Shared/Max\ 7/Packages
 				if [ $? -ne 0 ] ; then
-					printf "%s: [maxplugins]    Failed to copy Max 7 plugins.\n" "$(date +%T)"
+					printf "%s: [maxplugins] Failed to copy Max 7 plugins.\n" "$(date +%T)"
 				else
-					printf "%s: [maxplugins]    Copied Max 7 plugins to shared Max plugins folder.\n" "$(date +%T)"
+					printf "%s: [maxplugins] Copied Max 7 plugins to shared Max plugins folder.\n" "$(date +%T)"
 				fi
 			else
-				printf "%s: [maxplugins]    Copied Max 7 plugins to shared Max plugins folder.\n" "$(date +%T)"
+				printf "%s: [maxplugins] Copied Max 7 plugins to shared Max plugins folder.\n" "$(date +%T)"
 			fi
 		else
-			printf "%s: [maxplugins]    Could not find shared Max 7 plugins folder on this Mac. Is Max 7 installed?\n" "$(date +%T)"
+			printf "%s: [maxplugins] Could not find shared Max 7 plugins folder on this Mac. Is Max 7 installed?\n" "$(date +%T)"
 		fi
 	else
-		printf "%s: [maxplugins]    \`maxplugins\` folder is empty. Skipping...\n" "$(date +%T)"
+		printf "%s: [maxplugins] \`maxplugins\` folder is empty. Skipping...\n" "$(date +%T)"
 	fi
 else 
-	printf "%s: [maxplugins]    \`maxplugins\` folder does not exist. Skipping...\n" "$(date +%T)"
+	printf "%s: [maxplugins] \`maxplugins\` folder does not exist. Skipping...\n" "$(date +%T)"
 fi
 
 # Attempt to copy VST2 plugins
@@ -51,23 +52,23 @@ fi
 if [ -d "./vst2" ] ; then
 	# Check if source folder is empty
 	if [ "$(ls ./vst2)" ] ; then
-		printf "%s: [vst2]          \`vst2\` folder not empty. Attempt to copy VST2 plugins.\n" "$(date +%T)"
+		printf "%s: [vst2] \`vst2\` folder not empty. Attempt to copy VST2 plugins.\n" "$(date +%T)"
 		# Check is destination folder exists
 		if [ -d "/Library/Audio/Plug-Ins/VST" ] ; then
 			sudo cp -a ./vst2/ /Library/Audio/Plug-Ins/VST
 			if [ $? -ne 0 ] ; then
-				printf "%s: [vst2]          Failed to copy VST2 plugins.\n" "$(date +%T)"
+				printf "%s: [vst2] Failed to copy VST2 plugins.\n" "$(date +%T)"
 			else 
-				printf "%s: [vst2]          Copied VST2 plugins to Library.\n" "$(date +%T)"
+				printf "%s: [vst2] Copied VST2 plugins to Library.\n" "$(date +%T)"
 			fi
 		else 
-			printf "%s: [vst2]          Could not find the folder for VST2 plugins in Library.\n" "$(date +%T)"
+			printf "%s: [vst2] Could not find the folder for VST2 plugins in Library.\n" "$(date +%T)"
 		fi
 	else
-		printf "%s: [vst2]          \`vst2\` folder is empty. Skipping...\n" "$(date +%T)"
+		printf "%s: [vst2] \`vst2\` folder is empty. Skipping...\n" "$(date +%T)"
 	fi
 else
-	printf "%s: [vst2]          \`vst2\` folder does not exist. Skipping...\n" "$(date +%T)"
+	printf "%s: [vst2] \`vst2\` folder does not exist. Skipping...\n" "$(date +%T)"
 fi
 
 # Attempt to copy VST3 plugins
@@ -75,23 +76,23 @@ fi
 if [ -d "./vst3" ] ; then
 	# Check if source folder is empty
 	if [ "$(ls ./vst3)" ] ; then
-		printf "%s: [vst3]          \`vst3\` folder not empty. Attempt to copy VST3 plugins.\n" "$(date +%T)"
+		printf "%s: [vst3] \`vst3\` folder not empty. Attempt to copy VST3 plugins.\n" "$(date +%T)"
 		# Check is destination folder exists
 		if [ -d "/Library/Audio/Plug-Ins/VST3" ] ; then
 			sudo cp -a ./vst3/ /Library/Audio/Plug-Ins/VST3
 			if [ $? -ne 0 ] ; then
-				printf "%s: [vst3]          Failed to copy VST3 plugins.\n" "$(date +%T)"
+				printf "%s: [vst3] Failed to copy VST3 plugins.\n" "$(date +%T)"
 			else 
-				printf "%s: [vst3]          Copied VST3 plugins to Library.\n" "$(date +%T)"
+				printf "%s: [vst3] Copied VST3 plugins to Library.\n" "$(date +%T)"
 			fi
 		else 
-			printf "%s: [vst3]          Could not find the folder for VST3 plugins in Library.\n" "$(date +%T)"
+			printf "%s: [vst3] Could not find the folder for VST3 plugins in Library.\n" "$(date +%T)"
 		fi
 	else
-		printf "%s: [vst3]          \`vst3\` folder is empty. Skipping...\n" "$(date +%T)"
+		printf "%s: [vst3] \`vst3\` folder is empty. Skipping...\n" "$(date +%T)"
 	fi
 else
-	printf "%s: [vst3]          \`vst3\` folder does not exist. Skipping...\n" "$(date +%T)"
+	printf "%s: [vst3] \`vst3\` folder does not exist. Skipping...\n" "$(date +%T)"
 fi
 
 # Attempt to copy Audio Units plugins
@@ -99,23 +100,23 @@ fi
 if [ -d "./audiounits" ] ; then
 	# Check if source folder is empty
 	if [ "$(ls ./audiounits)" ] ; then
-		printf "%s: [audiounits]    audiounits folder not empty. Attempt to copy Audio Units plugins.\n" "$(date +%T)"
+		printf "%s: [audiounits] audiounits folder not empty. Attempt to copy Audio Units plugins.\n" "$(date +%T)"
 		# Check is destination folder exists
 		if [ -d "/Library/Audio/Plug-Ins/Components" ] ; then
 			sudo cp -a ./audiounits/ /Library/Audio/Plug-Ins/Components
 			if [ $? -ne 0 ] ; then
-				printf "%s: [audiounits]    Failed to copy Audio Units plugins.\n" "$(date +%T)"
+				printf "%s: [audiounits] Failed to copy Audio Units plugins.\n" "$(date +%T)"
 			else 
-				printf "%s: [audiounits]    Copied Audio Units plugins to Library.\n" "$(date +%T)"
+				printf "%s: [audiounits] Copied Audio Units plugins to Library.\n" "$(date +%T)"
 			fi
 		else 
-			printf "%s: [audiounits]    Could not find folder for Audio Units plugins in Library.\n" "$(date +%T)"
+			printf "%s: [audiounits] Could not find folder for Audio Units plugins in Library.\n" "$(date +%T)"
 		fi
 	else
-		printf "%s: [audiounits]    \`audiounits\` folder is empty. Skipping...\n" "$(date +%T)"
+		printf "%s: [audiounits] \`audiounits\` folder is empty. Skipping...\n" "$(date +%T)"
 	fi
 else
-	printf "%s: [audiounits]    \`audiounits\` folder does not exist. Skipping...\n" "$(date +%T)"
+	printf "%s: [audiounits] \`audiounits\` folder does not exist. Skipping...\n" "$(date +%T)"
 fi
 
 # Attempt to copy Applications
@@ -127,11 +128,11 @@ if [ -d "./applications" ] ; then
 		if [ -d "/Applications" ] ; then
 			echo "TODO"
 		else
-			printf "%s: [applications]  Could not find Applications folder.\n" "$(date +%T)"
+			printf "%s: [applications] Could not find Applications folder.\n" "$(date +%T)"
 		fi
 	else
-		printf "%s: [applications]  \`applications\` folder is empty. Skipping...\n" "$(date +%T)"
+		printf "%s: [applications] \`applications\` folder is empty. Skipping...\n" "$(date +%T)"
 	fi
 else 
-	printf "%s: [applications]  \`applications\` folder does not exist. Skipping...\n" "$(date +%T)"
+	printf "%s: [applications] \`applications\` folder does not exist. Skipping...\n" "$(date +%T)"
 fi
