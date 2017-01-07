@@ -147,7 +147,25 @@ A10: This is intensional. biträde is designed with the assumption that the main
 * In addition, scripts must be executable. biträde will not try to change file mode bits.
 * If your script requires reboot: Copy the file named `REBOOT_REQUIRED` from the root folder to `scripts` folder. Bear in mind that if `.pkg` files are installed, biträde will attempt to reboot at the end anyways. The reboot will not occur immediately if system update/upgrade is requested; otherwise the script will attempt to reboot after all scripts were executed regardless of the outcome of the scripts.
 
+## Legal
+```
+bitraede - DISIS Maintenance Script Set
 
+Copyright (C) 2017 Tianyu Ge
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+```
+* A copy of the GNU General Public License v3.0 can be found at the root folder (named `LICENSE`), and you can also find it [online](https://www.gnu.org/licenses/gpl-3.0.en.html). 
+* All product names and trademarks are property of their respective owners. 
+* This script set is provided on a _pro bono publico_ basis. See `LICENSE` file in root folder regarding warranty (§15) and liability (§16).
 
 [^1]: [https://pythonhosted.org/Markdown/index.html](https://pythonhosted.org/Markdown/index.html)
 

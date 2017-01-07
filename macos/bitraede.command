@@ -5,6 +5,9 @@
 
 # BEGINS
 
+# Display GPL disclaimer
+printf "\nbitraede - DISIS Maintenance Script Set  Copyright (C) 2017  Tianyu Ge\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is a free software, and you are welcome to redistribute it under certain conditions.\nFor full GNU GPL v3.0 license, please refer to \`LICENSE\` file in the root folder of this project,\nor visit https://www.gnu.org/licenses/gpl-3.0.en.html\n\n"
+
 # Checks if the script is executed with elevated permission
 # If so, refuse to continue
 if [ "$EUID" -eq 0 ] ; then
@@ -13,7 +16,6 @@ if [ "$EUID" -eq 0 ] ; then
 fi
 
 # Clean up folder by removing files like .DS_Store
-echo $(dirname "$0")
 cd $(dirname "$0")
 dot_clean .
 
