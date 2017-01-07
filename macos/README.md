@@ -2,8 +2,8 @@
 
 Please read through this file carefully before using biträde ('this script', 'the script'), as elevated permission can cause harm if not used properly. This script was a _bona fide_ attempt to streamline maintaining DISIS computers.
 
-## Convention of this document
-This document mostly follows the Python Flavoured Markdown convention [^1]. Two important syntaxes are inline code and code blocks. 
+## Format of this document
+This document mostly follows the Python Markdown format [^1]. Two important syntaxes are inline code and code blocks. 
 
 * Inline code is fenced by one backtick, like `this`.
 * Code block is fenced by three backticks, for example:
