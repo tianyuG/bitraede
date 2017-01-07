@@ -137,7 +137,7 @@ In addition, if you choose to update the system, the software updater will also 
 A9: The only official way is through Mac App Store. **Do not download it from internet** as it can be manipulated (even though biträde will probably reject it as it won't pass codesigning verification). **Do not share the installer with others** as it contains an Mac App Store receipt (which can be traced back to who released the installer). 
 
 ### Q10: Why not use flags (`--reboot-required`, for example) instead of special files?
-A10: This is intensional. biträde is designed with the assumption that the maintainer may not have too much experience with UNIX, and double clicking on the script would be easier for the maintainer (rather than figuring out how to run the script with flags). It is also not practical to wait for user input as it is designed to reduce user input. That said, this script is not designed to be invoked in Terminal directly. 
+A10: This is intentional. biträde is designed with the assumption that the maintainer may not have too much experience with UNIX, and double clicking on the script would be easier for the maintainer (rather than figuring out how to run the script with flags). It is also not practical to wait for user input as it is designed to reduce user input. That said, this script is not designed to be invoked in Terminal directly. 
 
 ## Notes for scripting
 * Do not use scripting unless you fully understand what you are doing [^13].
