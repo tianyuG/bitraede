@@ -447,38 +447,6 @@ pre[class*="language-"] {
 }
 </style>
 
-<style type="text/css">
-div.prism-show-language {
-	position: relative;
-}
-
-div.prism-show-language > div.prism-show-language-label {
-	color: black;
-	background-color: #CFCFCF;
-	display: inline-block;
-	position: absolute;
-	bottom: auto;
-	left: auto;
-	top: 0;
-	right: 0;
-	width: auto;
-	height: auto;
-	font-size: 0.9em;
-	border-radius: 0 0 0 5px;
-	padding: 0 0.5em;
-	text-shadow: none;
-	z-index: 1;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-	-webkit-transform: none;
-	-moz-transform: none;
-	-ms-transform: none;
-	-o-transform: none;
-	transform: none;
-}
-</style>
-
 
 </head>
 
@@ -490,7 +458,7 @@ div.prism-show-language > div.prism-show-language-label {
 
 <h2 id="toc_1">Format of this document</h2>
 
-<p>This document mostly follows the Python Markdown format <sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>. Two important syntaxes are inline code and code blocks. </p>
+<p>This document mostly follows the Python Markdown format <sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>. Two important syntaxes are inline code and code blocks:</p>
 
 <ul>
 <li>Inline code is fenced by one backtick, like <code>this</code>.</li>
@@ -501,16 +469,16 @@ div.prism-show-language > div.prism-show-language-label {
 <p>(<code>shell</code> being an optional language tag. It tells Markdown how to do syntax highlighting, however it won&#39;t be shown if the document is rendered.)</p></li>
 </ul>
 
-<p>If you are looking at the html file, you won&#39;t see the backticks and <code>shell</code> mentioned above.</p>
+<p>If you are looking at the html file or have the Markdown file rendered, you won&#39;t see the backticks and <code>shell</code> mentioned above.</p>
 
 <h2 id="toc_2">Usage</h2>
 
-<p>In order to run this script, it must be marked as executable. By default, double clicking on <code>bitraede.command</code> should be enough. </p>
+<p>In order to run this script, it must be marked as executable. By default, double clicking on <code>bitraede.command</code> should be enough, as it has already been marked executable. </p>
 
-<p>However, if you double click it and only see a terminal window flashing by or a text editor simply opens, you will need to mark the script to be executable <sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup>. To do so, open Terminal by <sup id="fnref3"><a href="#fn3" rel="footnote">3</a></sup>:</p>
+<p>However, if you double click it and only see a terminal window flashing by or a text editor simply opens, you will need to manually mark the script to be executable <sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup>. To do so, open Terminal by <sup id="fnref3"><a href="#fn3" rel="footnote">3</a></sup>:</p>
 
 <ul>
-<li>Clicking on the magnifying glass icon (the default keyboard shortcut is ⌘Space) on top-right side of the screen, start typing &#39;terminal&#39; and press return when Terminal is selected, or,</li>
+<li>Clicking on the magnifying glass icon (the default keyboard shortcut is command-space) on top-right side of the screen, start typing &#39;terminal&#39; and press return when Terminal is selected, or,</li>
 <li>Open Finder and click on Application &gt; Utilities &gt; Terminal.app.</li>
 </ul>
 
@@ -532,7 +500,7 @@ div.prism-show-language > div.prism-show-language-label {
 
 <h2 id="toc_3">File structure for macOS biträde</h2>
 
-<div><pre><code class="language-none">bitraede
+<div><pre><code class="language-none">bitraede    &lt;-- Referred to as &#39;root folder&#39; in this README
 |---macos
     |   bitraede.command
     |   CHECK_UPDATE
@@ -546,7 +514,7 @@ div.prism-show-language > div.prism-show-language-label {
         |   (AU plugins OR empty)
         |   ...
     |---maxplugins
-        |   (Max 7 plugins OR empty)
+        |   (Max 7 packages OR empty)
         |   ...
     |---pacakges
         |   (.pkg files OR empty)
@@ -568,13 +536,13 @@ div.prism-show-language > div.prism-show-language-label {
 
 <p>Please leave files/folders in respective folders.</p>
 
-<p>For files/folders in <code>vst2</code>, <code>vst3</code> and <code>audiounits</code> folders, they will be copied to respective folders in <code>/Library</code>. As such, elevated permission is required.</p>
+<p>For files/folders in <code>vst2</code>, <code>vst3</code> and <code>audiounits</code> folders, they will be copied to respective folders in <code>/Library/Audio/Plug-Ins</code>. This will ensure all users will have access to these plugins. As such, elevated permission is required.</p>
 
-<p>For files/folders in <code>maxplugins</code>, they will be copied to Max&#39;s plugin folder in <code>/Users/Shared/Max 7/</code>. No special permission is required.</p>
+<p>For files/folders in <code>maxplugins</code>, they will be copied to Max&#39;s packages folder in <code>/Users/Shared/Max 7/Packages</code>. No special permission should be required.</p>
 
-<p>For <code>.pkg</code> files <sup id="fnref4"><a href="#fn4" rel="footnote">4</a></sup> in <code>packages</code>, they will be executed sequencially. Elevated permission is required.</p>
+<p>For <code>.pkg</code> files <sup id="fnref4"><a href="#fn4" rel="footnote">4</a></sup> in <code>packages</code>, they will be executed sequencially. Elevated permission is required. Reboot will be performed at the end of the script, with a 10-second grace period.</p>
 
-<p>For <code>.app</code> files <sup id="fnref5"><a href="#fn5" rel="footnote">5</a></sup> in <code>applications</code>, they will be copied to <code>/Applications</code>. Elevated permission is required. If the <code>.app</code> file happens to be custom installers (usually the installers have the <code>.pkg</code> extension), do not leave them in this folder. Instead, please write a shell script for them.</p>
+<p>For <code>.app</code> files <sup id="fnref5"><a href="#fn5" rel="footnote">5</a></sup> in <code>applications</code>, they will be copied to <code>/Applications</code>. Elevated permission should not be required. If the <code>.app</code> file happens to be custom installers (usually the installers have the <code>.pkg</code> extension), do not leave them in this folder. Instead, please write a shell script for them.</p>
 
 <p>A special case for the <code>.app</code> installers is macOS installation file. For macOS installer, please leave it in the <code>system</code> folder. If a macOS installer file is found, this script will attempt to upgrade OS X/macOS currently installed on the target computer to the version contained in the installer. By utilising this option, you agree to Apple Inc.&#39;s Software License Agreements <sup id="fnref6"><a href="#fn6" rel="footnote">6</a></sup> for that specific version of OS X/macOS. Elevated permission is required.</p>
 
@@ -590,7 +558,7 @@ div.prism-show-language > div.prism-show-language-label {
 
 <h3 id="toc_5">Q1: Application &#39;can&#39;t be opened because it is from an unidentified developer&#39;?</h3>
 
-<p>A1: This is because the application is not signed with a valid developer ID and Gatekeeper prevented it from running <sup id="fnref7"><a href="#fn7" rel="footnote">7</a></sup>. If you indeed trust the app, you can exempt it from Gatekeeper. To do so, right click (or left click whilst holding option key) on the app icon in &#39;Applications&#39; folder and choose &#39;Open&#39;. When asked &#39;Are you sure you want to open it&#39;, click &#39;Open&#39;. Optionaly you can disable Gatekeeper, however this is not recommened for security reasons. See <sup id="fnref8"><a href="#fn8" rel="footnote">8</a></sup> if you really want to do that.</p>
+<p>A1: This is because the application is not signed with a valid developer ID and Gatekeeper prevented it from running <sup id="fnref7"><a href="#fn7" rel="footnote">7</a></sup>. If you indeed trust the publisher and the application, you can exempt it from Gatekeeper. To do so, right click (or left click whilst holding option key) on the app icon in &#39;Applications&#39; folder and choose &#39;Open&#39;. When asked &#39;Are you sure you want to open it&#39;, click &#39;Open&#39;. You will only need to do it once. Optionaly you can disable Gatekeeper altogether; however this is strongly not recommened for security reasons. See <sup id="fnref8"><a href="#fn8" rel="footnote">8</a></sup> if you really want to do that.</p>
 
 <h3 id="toc_6">Q2: Application &#39;is damaged and can&#39;t be opened. You should move it to the Trash&#39;?</h3>
 
@@ -618,7 +586,7 @@ div.prism-show-language > div.prism-show-language-label {
 
 <p>A5: <code>vst2</code> -&gt; <code>vst3</code> -&gt; <code>audiounits</code> -&gt; <code>applications</code> -&gt; <code>packages</code> -&gt; <code>maxpackages</code> -&gt; <code>scripts</code> -&gt; <code>system</code> (upgrade or update).</p>
 
-<p>All operations are optional. If packages are installed or system update is performed, after the script is complete, you will be prompted to reboot with a 10-second timeout. If the package does not require rebooting or if you simply want to postpone reboot, cancel it during the timeout. System upgrade will always result in a reboot.</p>
+<p>All operations are optional. If packages are installed or system update is performed, after the script is complete, you will be prompted to reboot with a 10-second timeout. If the packages do not require rebooting or if you simply want to postpone reboot, cancel it during the timeout. System upgrade will always result in a reboot.</p>
 
 <h3 id="toc_10">Q6: Why biträde cannot be run with <code>sudo</code>?</h3>
 
@@ -626,7 +594,7 @@ div.prism-show-language > div.prism-show-language-label {
 
 <h3 id="toc_11">Q7: What version of OS X/macOS can I upgrade to with biträde?</h3>
 
-<p>A7: All iMacs in DISIS have OS X 10.11 installed, so it can be upgraded to macOS 10.12 or higher. biträde also utilises a tool called <code>startosinstall</code>, which are not available in OS X 10.10 installer or earlier versions.</p>
+<p>A7: All iMacs in DISIS have OS X 10.11 installed, so it can be upgraded to macOS 10.12 or higher. biträde also utilises a tool called <code>startosinstall</code>, which was not available in OS X 10.10 installer or earlier versions.</p>
 
 <h3 id="toc_12">Q8: What is the differences between &#39;update&#39; and &#39;upgrade&#39;?</h3>
 
@@ -657,11 +625,17 @@ div.prism-show-language > div.prism-show-language-label {
 
 <h2 id="toc_16">Notes on upgrading</h2>
 
-<p>There is no guarantee that the method I use here will be the same for future macOS versions. <code>startosinstall</code> was first spotted in OS X 10.10 installer and was since included in all OS X/macOS installers. There is an undocumented flag, <code>--nointeraction</code>, which I decided not to use as, well, it&#39;s not documented. </p>
+<p>There is no guarantee that the method I use here will be the same for future macOS versions. <code>startosinstall</code> was first spotted in OS X 10.10 installer and was since included in all OS X/macOS installers. There is an undocumented flag, <code>--nointeraction</code>, which I decided not to use, as it&#39;s not documented and there is no guarantee it won&#39;t be removed in future releases. </p>
 
 <p>It is always possible to use the <code>createinstallmedia</code> tool, which is also included in recent OS X installers (10.9 and newer). This is a well-documented tool for creating OS X/macOS installing media (flash drive, for example) <sup id="fnref14"><a href="#fn14" rel="footnote">14</a></sup>. </p>
 
-<h2 id="toc_17">Legal</h2>
+<h2 id="toc_17">Notes on System Integrity Protection (SIP)</h2>
+
+<p>Simply put, all applications currently installed on DISIS iMacs do not require disabling (or even temporarily disabling) SIP. Older applications, like Rogue Aomeba-maintained Soundflower, will fail to install because the installer would attempt to install an unsigned kernel extension (kext), which is explicitly forbidden under SIP <sup id="fnref15"><a href="#fn15" rel="footnote">15</a></sup>. Other applications, like earlier versions of Homebrew, will fail to install becuase the installer would try to write to directories that were protected under SIP. The current versions of both applications are modified so they can be installed without disabling SIP.</p>
+
+<p>It is not possible to write a script to disable SIP; instead, you will need to boot to Recovery Mode to do so <sup id="fnref16"><a href="#fn16" rel="footnote">16</a></sup>. </p>
+
+<h2 id="toc_18">Legal</h2>
 
 <div><pre><code class="language-none">MIT License
 
@@ -690,7 +664,7 @@ SOFTWARE.</code></pre></div>
 <li>All product names and trademarks are property of their respective owners. </li>
 </ul>
 
-<h2 id="toc_18">Tested configuration</h2>
+<h2 id="toc_19">Tested configuration</h2>
 
 <ul>
 <li>macOS Sierra Version 10.12.2 (16C67), Terminal Version 2.7.1 (388)</li>
@@ -726,7 +700,7 @@ SOFTWARE.</code></pre></div>
 </li>
 
 <li id="fn7">
-<p><a href="https://support.apple.com/en-us/HT202491">https://support.apple.com/en-us/HT202491</a>&nbsp;<a href="#fnref7" rev="footnote">&#8617;</a></p>
+<p>For more information regarding Gatekeeper, refer to Apple&#39;s <a href="https://support.apple.com/en-us/HT202491">Help Topic #202491</a>.&nbsp;<a href="#fnref7" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn8">
@@ -754,7 +728,15 @@ SOFTWARE.</code></pre></div>
 </li>
 
 <li id="fn14">
-<p>For more information on <code>createinstallmedia</code>, please refer to Apple&#39;s Help Topic #201372: <a href="https://support.apple.com/en-us/HT201372">https://support.apple.com/en-us/HT201372</a>&nbsp;<a href="#fnref14" rev="footnote">&#8617;</a></p>
+<p>For more information on <code>createinstallmedia</code>, please refer to Apple&#39;s <a href="https://support.apple.com/en-us/HT201372">Help Topic #201372</a>.&nbsp;<a href="#fnref14" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn15">
+<p>It appears that Rogue Amoeba is not actively maintaining Soundflower; it offers a commercial application called Loopback which has similar functionalities. For a version of Soundflower that can be used in OS X 10.11 and above, refer to this page: <a href="https://www.fluxforge.com/blog/soundflower-os-x-10.11-10.12-macOS-sierra/">https://www.fluxforge.com/blog/soundflower-os-x-10.11-10.12-macOS-sierra/</a>&nbsp;<a href="#fnref15" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn16">
+<p>For technical details of SIP, refer to Apple&#39;s <a href="https://support.apple.com/en-us/HT204899">Help Topic #204899</a>; to learn how to enable and disable SIP, refer to <a href="https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html">this developer document</a>.&nbsp;<a href="#fnref16" rev="footnote">&#8617;</a></p>
 </li>
 
 </ol>
@@ -764,10 +746,6 @@ SOFTWARE.</code></pre></div>
 
 <script type="text/javascript">
 var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(){var e=/\blang(?:uage)?-(\w+)\b/i,t=0,n=_self.Prism={util:{encode:function(e){return e instanceof a?new a(e.type,n.util.encode(e.content),e.alias):"Array"===n.util.type(e)?e.map(n.util.encode):e.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).match(/\[object (\w+)\]/)[1]},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++t}),e.__id},clone:function(e){var t=n.util.type(e);switch(t){case"Object":var a={};for(var r in e)e.hasOwnProperty(r)&&(a[r]=n.util.clone(e[r]));return a;case"Array":return e.map&&e.map(function(e){return n.util.clone(e)})}return e}},languages:{extend:function(e,t){var a=n.util.clone(n.languages[e]);for(var r in t)a[r]=t[r];return a},insertBefore:function(e,t,a,r){r=r||n.languages;var l=r[e];if(2==arguments.length){a=arguments[1];for(var i in a)a.hasOwnProperty(i)&&(l[i]=a[i]);return l}var o={};for(var s in l)if(l.hasOwnProperty(s)){if(s==t)for(var i in a)a.hasOwnProperty(i)&&(o[i]=a[i]);o[s]=l[s]}return n.languages.DFS(n.languages,function(t,n){n===r[e]&&t!=e&&(this[t]=o)}),r[e]=o},DFS:function(e,t,a,r){r=r||{};for(var l in e)e.hasOwnProperty(l)&&(t.call(e,l,e[l],a||l),"Object"!==n.util.type(e[l])||r[n.util.objId(e[l])]?"Array"!==n.util.type(e[l])||r[n.util.objId(e[l])]||(r[n.util.objId(e[l])]=!0,n.languages.DFS(e[l],t,l,r)):(r[n.util.objId(e[l])]=!0,n.languages.DFS(e[l],t,null,r)))}},plugins:{},highlightAll:function(e,t){var a={callback:t,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};n.hooks.run("before-highlightall",a);for(var r,l=a.elements||document.querySelectorAll(a.selector),i=0;r=l[i++];)n.highlightElement(r,e===!0,a.callback)},highlightElement:function(t,a,r){for(var l,i,o=t;o&&!e.test(o.className);)o=o.parentNode;o&&(l=(o.className.match(e)||[,""])[1],i=n.languages[l]),t.className=t.className.replace(e,"").replace(/\s+/g," ")+" language-"+l,o=t.parentNode,/pre/i.test(o.nodeName)&&(o.className=o.className.replace(e,"").replace(/\s+/g," ")+" language-"+l);var s=t.textContent,u={element:t,language:l,grammar:i,code:s};if(!s||!i)return n.hooks.run("complete",u),void 0;if(n.hooks.run("before-highlight",u),a&&_self.Worker){var c=new Worker(n.filename);c.onmessage=function(e){u.highlightedCode=e.data,n.hooks.run("before-insert",u),u.element.innerHTML=u.highlightedCode,r&&r.call(u.element),n.hooks.run("after-highlight",u),n.hooks.run("complete",u)},c.postMessage(JSON.stringify({language:u.language,code:u.code,immediateClose:!0}))}else u.highlightedCode=n.highlight(u.code,u.grammar,u.language),n.hooks.run("before-insert",u),u.element.innerHTML=u.highlightedCode,r&&r.call(t),n.hooks.run("after-highlight",u),n.hooks.run("complete",u)},highlight:function(e,t,r){var l=n.tokenize(e,t);return a.stringify(n.util.encode(l),r)},tokenize:function(e,t){var a=n.Token,r=[e],l=t.rest;if(l){for(var i in l)t[i]=l[i];delete t.rest}e:for(var i in t)if(t.hasOwnProperty(i)&&t[i]){var o=t[i];o="Array"===n.util.type(o)?o:[o];for(var s=0;s<o.length;++s){var u=o[s],c=u.inside,g=!!u.lookbehind,h=!!u.greedy,f=0,d=u.alias;u=u.pattern||u;for(var p=0;p<r.length;p++){var m=r[p];if(r.length>e.length)break e;if(!(m instanceof a)){u.lastIndex=0;var y=u.exec(m),v=1;if(!y&&h&&p!=r.length-1){var b=r[p+1].matchedStr||r[p+1],k=m+b;if(p<r.length-2&&(k+=r[p+2].matchedStr||r[p+2]),u.lastIndex=0,y=u.exec(k),!y)continue;var w=y.index+(g?y[1].length:0);if(w>=m.length)continue;var _=y.index+y[0].length,P=m.length+b.length;if(v=3,P>=_){if(r[p+1].greedy)continue;v=2,k=k.slice(0,P)}m=k}if(y){g&&(f=y[1].length);var w=y.index+f,y=y[0].slice(f),_=w+y.length,S=m.slice(0,w),O=m.slice(_),j=[p,v];S&&j.push(S);var A=new a(i,c?n.tokenize(y,c):y,d,y,h);j.push(A),O&&j.push(O),Array.prototype.splice.apply(r,j)}}}}}return r},hooks:{all:{},add:function(e,t){var a=n.hooks.all;a[e]=a[e]||[],a[e].push(t)},run:function(e,t){var a=n.hooks.all[e];if(a&&a.length)for(var r,l=0;r=a[l++];)r(t)}}},a=n.Token=function(e,t,n,a,r){this.type=e,this.content=t,this.alias=n,this.matchedStr=a||null,this.greedy=!!r};if(a.stringify=function(e,t,r){if("string"==typeof e)return e;if("Array"===n.util.type(e))return e.map(function(n){return a.stringify(n,t,e)}).join("");var l={type:e.type,content:a.stringify(e.content,t,r),tag:"span",classes:["token",e.type],attributes:{},language:t,parent:r};if("comment"==l.type&&(l.attributes.spellcheck="true"),e.alias){var i="Array"===n.util.type(e.alias)?e.alias:[e.alias];Array.prototype.push.apply(l.classes,i)}n.hooks.run("wrap",l);var o="";for(var s in l.attributes)o+=(o?" ":"")+s+'="'+(l.attributes[s]||"")+'"';return"<"+l.tag+' class="'+l.classes.join(" ")+'" '+o+">"+l.content+"</"+l.tag+">"},!_self.document)return _self.addEventListener?(_self.addEventListener("message",function(e){var t=JSON.parse(e.data),a=t.language,r=t.code,l=t.immediateClose;_self.postMessage(n.highlight(r,n.languages[a],a)),l&&_self.close()},!1),_self.Prism):_self.Prism;var r=document.currentScript||[].slice.call(document.getElementsByTagName("script")).pop();return r&&(n.filename=r.src,document.addEventListener&&!r.hasAttribute("data-manual")&&document.addEventListener("DOMContentLoaded",n.highlightAll)),_self.Prism}();"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism);
-</script>
-
-<script type="text/javascript">
-!function(){if("undefined"!=typeof self&&self.Prism&&self.document){var e={html:"HTML",xml:"XML",svg:"SVG",mathml:"MathML",css:"CSS",clike:"C-like",javascript:"JavaScript",abap:"ABAP",actionscript:"ActionScript",apacheconf:"Apache Configuration",apl:"APL",applescript:"AppleScript",asciidoc:"AsciiDoc",aspnet:"ASP.NET (C#)",autoit:"AutoIt",autohotkey:"AutoHotkey",basic:"BASIC",csharp:"C#",cpp:"C++",coffeescript:"CoffeeScript","css-extras":"CSS Extras",fsharp:"F#",glsl:"GLSL",http:"HTTP",inform7:"Inform 7",json:"JSON",latex:"LaTeX",lolcode:"LOLCODE",matlab:"MATLAB",mel:"MEL",nasm:"NASM",nginx:"nginx",nsis:"NSIS",objectivec:"Objective-C",ocaml:"OCaml",parigp:"PARI/GP",php:"PHP","php-extras":"PHP Extras",powershell:"PowerShell",jsx:"React JSX",rest:"reST (reStructuredText)",sas:"SAS",sass:"Sass (Sass)",scss:"Sass (Scss)",sql:"SQL",typescript:"TypeScript",vhdl:"VHDL",vim:"vim",wiki:"Wiki markup",yaml:"YAML"};Prism.hooks.add("before-highlight",function(s){var a=s.element.parentNode;if(a&&/pre/i.test(a.nodeName)){var t,i,r=a.getAttribute("data-language")||e[s.language]||s.language.substring(0,1).toUpperCase()+s.language.substring(1),l=a.previousSibling;l&&/\s*\bprism-show-language\b\s*/.test(l.className)&&l.firstChild&&/\s*\bprism-show-language-label\b\s*/.test(l.firstChild.className)?i=l.firstChild:(t=document.createElement("div"),i=document.createElement("div"),i.className="prism-show-language-label",t.className="prism-show-language",t.appendChild(i),a.parentNode.insertBefore(t,a)),i.innerHTML=r}})}}();
 </script>
 
 
