@@ -6,7 +6,7 @@
 # BEGINS
 
 # Display GPL disclaimer
-printf "\nbitraede - DISIS Maintenance Script Set  Copyright (C) 2017  Tianyu Ge\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is a free software, and you are welcome to redistribute it under certain conditions.\nFor full GNU GPL v3.0 license, please refer to \`LICENSE\` file in the root folder of this project,\nor visit https://www.gnu.org/licenses/gpl-3.0.en.html\n\n"
+printf "\nbitraede - DISIS Maintenance Script Set\n\nMIT License\n\nCopyright (c) 2017 Tianyu Ge\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the "Software"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n\n"
 
 # Checks if the script is executed with elevated permission
 # If so, refuse to continue
