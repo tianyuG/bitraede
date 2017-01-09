@@ -15,8 +15,9 @@ if [ "$EUID" -eq 0 ] ; then
 	exit
 fi
 
+CURRENT_DIR=$(dirname "$0")
 # Clean up folder by removing files like .DS_Store
-cd $(dirname "$0")
+cd $CURRENT_DIR
 dot_clean .
 
 # Attempt to copy VST2 plugins
@@ -30,7 +31,7 @@ if [ -d "./vst2" ] ; then
 			if [ $? -ne 0 ] ; then
 				printf "%s: [vst2] 😰  Failed to copy VST2 plugins.\n" "$(date +%T)"
 			else 
-				printf "%s: [vst2] 👏  Copied VST2 plugins to Library.\n" "$(date +%T)"
+				printf "%s: [vst2] 👏  Copied all given VST2 plugins to Library.\n" "$(date +%T)"
 			fi
 		else 
 			printf "%s: [vst2] 😱  Could not find the folder for VST2 plugins in Library.\n" "$(date +%T)"
@@ -53,7 +54,7 @@ if [ -d "./vst3" ] ; then
 			if [ $? -ne 0 ] ; then
 				printf "%s: [vst3] 😰  Failed to copy VST3 plugins.\n" "$(date +%T)"
 			else 
-				printf "%s: [vst3] 👏  Copied VST3 plugins to Library.\n" "$(date +%T)"
+				printf "%s: [vst3] 👏  Copied all given VST3 plugins to Library.\n" "$(date +%T)"
 			fi
 		else 
 			printf "%s: [vst3] 😱  Could not find the folder for VST3 plugins in Library.\n" "$(date +%T)"
@@ -76,7 +77,7 @@ if [ -d "./audiounits" ] ; then
 			if [ $? -ne 0 ] ; then
 				printf "%s: [audiounits] 😰  Failed to copy Audio Units plugins.\n" "$(date +%T)"
 			else 
-				printf "%s: [audiounits] 👏  Copied Audio Units plugins to Library.\n" "$(date +%T)"
+				printf "%s: [audiounits] 👏  Copied all given Audio Units plugins to Library.\n" "$(date +%T)"
 			fi
 		else 
 			printf "%s: [audiounits] 😱  Could not find folder for Audio Units plugins in Library.\n" "$(date +%T)"
@@ -92,11 +93,27 @@ fi
 # Check if source folder exists
 if [ -d "./applications" ] ; then
 	# Check if source folder is empty
-	if [ "$(ls -1 ./applications/*.app 2> /dev/null | wc -l)" -ne 0 ] ; then
+	if [ "$(ls -d1 ./applications/*.app 2> /dev/null | wc -l)" -ne 0 ] ; then
 		# Check is destination folder exists
 		if [ -d "/Applications" ] ; then
-			## TODO: Fileops
-			echo "TODO"
+			SRC_APP_DIR="$CURRENT_DIR/applications/*.app"
+			for APP in $SRC_APP_DIR ; do
+				# Check if file is executable
+				if [ -x "${APP}" ] ; then
+					cp -R "${APP}" /Applications
+					# Try sudo if failed
+					if [ $? -ne 0 ] ; then 
+						sudo cp -R "${APP}" /Applications
+						if [ $? -ne 0 ] ; then
+							printf "%s: [applications] 😰  Failed to copy application \'%s\'.\n" "$(date +%T)" $(basename "$APP")
+						else
+							printf "%s: [applications] 👏  Copied application \'%s\'.\n" "$(date +%T)" $(basename "$APP")
+						fi
+					else
+						printf "%s: [applications] 👏  Copied application \'%s\'.\n" "$(date +%T)" $(basename "$APP")
+					fi
+				fi
+			done
 		else
 			printf "%s: [applications] 😱  Could not find Applications folder.\n" "$(date +%T)"
 		fi
