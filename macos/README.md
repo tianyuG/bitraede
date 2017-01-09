@@ -17,7 +17,9 @@ echo hello world!
 If you are looking at the html file, you won't see the backticks and `shell` mentioned above.
 
 ## Usage
-In order to run this script, it must be marked as executable. By default, double clicking on `bitraede.command` should be enough. However, if you double click it and only see a terminal window flashing by or a text editor simply opens, you will need to mark the script to be executable [^2]. To do so, open Terminal by [^3]:
+In order to run this script, it must be marked as executable. By default, double clicking on `bitraede.command` should be enough. 
+
+However, if you double click it and only see a terminal window flashing by or a text editor simply opens, you will need to mark the script to be executable [^2]. To do so, open Terminal by [^3]:
 
 * Clicking on the magnifying glass icon (the default keyboard shortcut is ⌘Space) on top-right side of the screen, start typing 'terminal' and press return when Terminal is selected, or,
 * Open Finder and click on Application > Utilities > Terminal.app.
@@ -133,19 +135,26 @@ A8: In the scope of this README, 'update' is defined to be 'updating system soft
 
 In addition, if you choose to update the system, the software updater will also check for updates of certain system features (Digital Camera RAW Compatibility Update, for example).
 
+If you have both the OS X/macOS installer and `CHECK_UPDATE` file in `system` folder, `CHECK_UPDATE` will be ignored. 
+
 ### Q9: Where can I obtain OS X/macOS installer?
 A9: The only official way is through Mac App Store. **Do not download it from internet** as it can be manipulated (even though biträde will probably reject it as it won't pass codesigning verification). **Do not share the installer with others** as it contains an Mac App Store receipt (which can be traced back to who released the installer). 
 
 ### Q10: Why not use flags (`--reboot-required`, for example) instead of special files?
 A10: This is intentional. biträde is designed with the assumption that the maintainer may not have too much experience with UNIX, and double clicking on the script would be easier for the maintainer (rather than figuring out how to run the script with flags). It is also not practical to wait for user input as it is designed to reduce user input. That said, this script is not designed to be invoked in Terminal directly. 
 
-## Notes for scripting
+## Notes on scripting
 * Do not use scripting unless you fully understand what you are doing [^13].
 * If an command requires elevated permission, use `sudo` in front of the line that really needs it. Avoid using `su`. 
 * Test the script before deploying to production.
 * Scripts must use `.sh` or `.command` file extensions. UTI is not checked.
 * In addition, scripts must be executable. biträde will not try to change file mode bits.
 * If your script requires reboot: Copy the file named `REBOOT_REQUIRED` from the root folder to `scripts` folder. Bear in mind that if `.pkg` files are installed, biträde will attempt to reboot at the end anyways. The reboot will not occur immediately if system update/upgrade is requested; otherwise the script will attempt to reboot after all scripts were executed regardless of the outcome of the scripts.
+
+## Notes on upgrading
+There is no guarantee that the method I use here will be the same for future macOS versions. `startosinstall` was first spotted in OS X 10.10 installer and was since included in all OS X/macOS installers. There is an undocumented flag, `--nointeraction`, which I decided not to use as, well, it's not documented. 
+
+It is always possible to use the `createinstallmedia` tool, which is also included in recent OS X installers (10.9 and newer). This is a well-documented tool for creating OS X/macOS installing media (flash drive, for example) [^14]. 
 
 ## Legal
 ```
@@ -166,6 +175,10 @@ GNU General Public License for more details.
 * A copy of the GNU General Public License v3.0 can be found at the root folder (named `LICENSE`), and you can also find it [online](https://www.gnu.org/licenses/gpl-3.0.en.html). 
 * All product names and trademarks are property of their respective owners. 
 * This script set is provided on a _pro bono publico_ basis. See `LICENSE` file in root folder regarding warranty (§15) and liability (§16).
+
+## Tested configuration
+* macOS Sierra Version 10.12.2 (16C67), Terminal Version 2.7.1 (388)
+* macOS Sierra Version 10.12.2 (16C67), iTerm2 Build 3.0.13
 
 [^1]: [https://pythonhosted.org/Markdown/index.html](https://pythonhosted.org/Markdown/index.html)
 
@@ -192,3 +205,5 @@ GNU General Public License for more details.
 [^12]: The other reason that you should not invoke this script with `./bitraede.command` is currently part of the script cannot expand `./` to an absolute path.
 
 [^13]: My dad got me a computer tutoring software soon after I first used a laptop. The software featured a section, paraphrased 'DO NOT DO THIS IF YOU ARE A NEWBIE', prominently. I immediately disregarded the advise and used `FORMAT C:\` in `COMMAND.COM`. Hilarity ensues. Thanks for showing me what I shan't do, people who made that software. /s
+
+[^14]: For more information on `createinstallmedia`, please refer to Apple's Help Topic #201372: [https://support.apple.com/en-us/HT201372](https://support.apple.com/en-us/HT201372)
