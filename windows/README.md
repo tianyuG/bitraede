@@ -1,4 +1,4 @@
-# biträde for macOS
+# biträde for Windows
 
 Please read through this file carefully before using biträde ('this script', 'the script'), as elevated permission can cause harm if not used properly. This script was a _bona fide_ attempt to streamline maintaining DISIS computers.
 
@@ -17,92 +17,33 @@ echo hello world!
 If you are looking at the html file or have the Markdown file rendered, you won't see the backticks and `shell` mentioned above.
 
 ## Usage
-In order to run this script, it must be marked as executable. By default, double clicking on `bitraede.command` should be enough, as it has already been marked executable. 
 
-However, if you double click it and only see a terminal window flashing by or a text editor simply opens, you will need to manually mark the script to be executable [^2]. To do so, open Terminal by [^3]:
+In order to execute the script, double-click on `bitraede.bat`. User Access Control (UAC) will then show up and ask you for the admin user name and password. Once the correct credential is confirmed, another command line window will show up and the script will then start [^2].
 
-* Clicking on the magnifying glass icon (the default keyboard shortcut is command-space) on top-right side of the screen, start typing 'terminal' and press return when Terminal is selected, or,
-* Open Finder and click on Application > Utilities > Terminal.app.
-
-Once Terminal is open, type in 
-
-```shell
-chmod +x␣
-```
-
-Note that the character after `+x` is a single whitespace.
-
-Then, drag the script file, `bitraede.command`, into the Terminal window. The Terminal should look similar to this:
-
-```shell
-chmod +x /Volume/flashdrive/macos/bitraede.command
-```
-
-Press return to flip the execution triads. If this script is saved on a removable device and this removable device is used amongst different Macs, you should only need to do it once.
-
-Once proper execution permission is set, double click `bitrade.command` to execute this script.
-
-**`bitraede.command` shall not be executed with elevated permission. That is to say, do not `sudo`-open this script. When elevated permission is required, you will be asked to authenticate once during the lifetime of this script.**
-
-## File structure for macOS biträde
+## File structure for Windows biträde
 ```
 bitraede	<-- Referred to as 'root folder' in this README
-|---macos
-    |   bitraede.command
+|---windows
+    |   bitraede.bat
+    |   ps.ps1
     |   README.html
     |   README.md
-    |---applications
-        |   (.app files OR empty)
-        |   ...
-    |---audiounits
-        |   (AU plugins OR empty)
+    |---exe
+        |   (exe installers OR empty)
         |   ...
     |---maxpackages
         |   (Max 7 packages OR empty)
         |   ...
-    |---OPTIONS
-        |   ALLOW_UNTRUSTED
-        |   CHECK_UPDATE
-        |   NO_REBOOT
-        |   REBOOT_REQUIRED
-    |---pacakges
-        |   (.pkg files OR empty)
+    |---msi
+        |   (msi installers OR empty)
         |   ...
     |---scripts
-        |   (custom script files OR empty)
-        |   (optionally, REBOOT_REQUIRED)
+        |   (PowerShell scripts OR empty)
         |   ...
-    |---system
-        |   (macOS installer: an .app file)
-        |   (OR CHECK_UPDATE)
-        |   (OR empty)
-    |---vst2
-        |   (VST2 plugins OR empty)
-        |   ...
-    |---vst3
-        |   (VST3 plugins OR empty)
-        |   ...
+    |---vst
+        |   (VST files for Max 7 OR empty)
+        |	 ...
 ```
-
-Please leave files/folders in respective folders.
-
-For files/folders in `vst2`, `vst3` and `audiounits` folders, they will be copied to respective folders in `/Library/Audio/Plug-Ins`. This will ensure all users will have access to these plugins. As such, elevated permission is required.
-
-For files/folders in `maxpackages`, they will be copied to Max's packages folder in `/Users/Shared/Max 7/Packages`. No special permission should be required.
-
-For `.pkg` files [^4] in `packages`, they will be executed sequencially. Elevated permission is required. Reboot will be performed at the end of the script, with a 10-second grace period. By default, biträde will refuse to install untrust packages (packages that do not carry a valid certificate, which includes packages that carry an expired certificate). In order to install untrusted packages, copy `ALLOW_UNTRUSTED` from the `OPTIONS` folder to `packages` folder. To prevent biträde from rebooting after packages are installed, copy `NO_REBOOT` from the `OPTIONS` folder to `packages` folder. If you have both `NO_REBOOT` in `packages` and `REBOOT_REQUIRED` in `scripts`, `NO_REBOOT` will be ignored.
-
-For `.app` files [^5] in `applications`, they will be copied to `/Applications`. Elevated permission should not be required. If the `.app` file happens to be custom installers (usually the installers have the `.pkg` extension), do not leave them in this folder. Instead, please write a shell script for them.
-
-A special case for the `.app` installers is macOS installation file. For macOS installer, please leave it in the `system` folder. If a macOS installer file is found, this script will attempt to upgrade OS X/macOS currently installed on the target computer to the version contained in the installer. By utilising this option, you agree to Apple Inc.'s Software License Agreements [^6] for that specific version of OS X/macOS. Elevated permission is required.
-
-If the file named `CHECK_UPDATE` is copied from the `OPTIONS` folder to `system` folder, this script will attempt to update the current system. The major system version will remain the same (for example, if the target Mac has OS X 10.11.1, it will update to 10.11.6 instead of the latest stable version of macOS). It will also attempt to update certain included Apple software (for example, Digital Camera RAW Compatibility Update). This option will be ignored if a macOS installer file is found in `system`; otherwise, if `CHECK_UPDATE` is present, elevated permission is required.
-
-You can also leave shell scripts in the `scripts` folder. As mentioned before, `bitraede.command` shall not be executed with elevated permission; you should elevate permission only for commands that really need it in the shell script (by using `sudo`, for example). Shell scripts should use `.sh` or `.command` file extension and they should be executable.
-
-**Please exercise extreme caution with the elevated permission; it is imperative that you test the custom scripts before deploying them to production. With great power comes great responsibility.**
-
-If elevated permission is required, you will be asked to authenticate with an account that has `sudo` access. You will only be asked to authenticate once during the entire lifetime of this script.
 
 ## Logs
 ### `pkg` files
@@ -203,32 +144,4 @@ SOFTWARE.
 
 [^1]: [https://pythonhosted.org/Markdown/index.html](https://pythonhosted.org/Markdown/index.html)
 
-[^2]: Other options are currently being explored, which would make things easier. If they work.
-
-[^3]: Terminal.app is located in `/Applications/Utilities/Terminal.app`.
-
-[^4]: They are actually folders.
-
-[^5]: Also actually folders. Technically 'directories', to be pedantic.
-
-[^6]: [http://www.apple.com/legal/sla/](http://www.apple.com/legal/sla/)
-
-[^7]: For more information regarding Gatekeeper, refer to Apple's [Help Topic #202491](https://support.apple.com/en-us/HT202491).
-
-[^8]: _Loc. cit._
-
-[^9]: _Loc. cit._
-
-[^10]: [http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/](http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/)
-
-[^11]: [http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/](http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/)
-
-[^12]: The other reason that you should not invoke this script with `./bitraede.command` is currently part of the script cannot expand `./` to an absolute path.
-
-[^13]: My dad got me a computer tutoring software soon after I first used a laptop. The software featured a section, paraphrased 'DO NOT DO THIS IF YOU ARE A NEWBIE', prominently. I immediately disregarded the advise and used `FORMAT C:\` in `COMMAND.COM`. Hilarity ensues. Thanks for showing me what I shan't do, people who made that software. /s
-
-[^14]: For more information on `createinstallmedia`, please refer to Apple's [Help Topic #201372](https://support.apple.com/en-us/HT201372).
-
-[^15]: It appears that Rogue Amoeba is not actively maintaining Soundflower; it offers a commercial application called Loopback which has similar functionalities. For a version of Soundflower that can be used in OS X 10.11 and above, refer to this page: [https://www.fluxforge.com/blog/soundflower-os-x-10.11-10.12-macOS-sierra/](https://www.fluxforge.com/blog/soundflower-os-x-10.11-10.12-macOS-sierra/)
-
-[^16]: For technical details of SIP, refer to Apple's [Help Topic #204899](https://support.apple.com/en-us/HT204899); to learn how to enable and disable SIP, refer to [this developer document](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html).
+[^2]: The fact is, `bitraede.bat` is merely a batch script to kickstart the actual PowerShell script. Due to the default Local Security policies, PowerShell scripts cannot be executed without being signed. This introduced two problems: first, a trusted certificate must be obtained, and second, after the PowerShell script is signed with a certificate, it will not be easily editable. 
