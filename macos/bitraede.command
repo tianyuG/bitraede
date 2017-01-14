@@ -36,7 +36,7 @@ if [ "$(ls -1Ad ${CURRENT_DIR}/scripts/*.sh 2> /dev/null | wc -l)" -gt 0 ] ; the
 		if [ -f $PREPROC_SH ] ; then
 			printf "In %s:\n" $PREPROC_SH >> $LOG_FILE
 			cat $PREPROC_SH 2> /dev/null >> $LOG_FILE
-			printf "\n" >> $LOG_FILE
+			printf "\n(size %s)\n" "$(du -h "${PREPROC_SH}" | cut -f1)" >> $LOG_FILE
 		fi
 	done
 	printf "\n\n\n\n\n" >> $LOG_FILE
@@ -46,7 +46,7 @@ printf ">>>> MAINTENANCE LOGS <<<<\n" >> $LOG_FILE
 # Gain sudo access
 sudo printf "%s [preprocessing] 🙌  Elevated privileges acquired.\n" "$(date +%T)" | tee -a $LOG_FILE 
 if [ $? -ne 0 ] ; then
-	printf "%s [preprocessing] 😰  Elevated privileges not acquired.\n%s [bitraede] 👋  All done!\n" "$(date +%T)" "$(date +%T)" | tee -a $LOG_FILE 
+	printf "%s [preprocessing] 😰  Elevated privileges not acquired.\n%s [postprocessing] 👋  All done!\n" "$(date +%T)" "$(date +%T)" | tee -a $LOG_FILE 
 	exit
 else
 	printf "%s [preprocessing] 💡  Main log can be located at %s\n" "$(date +%T)" ${LOG_FILE} | tee -a $LOG_FILE 
@@ -223,7 +223,6 @@ if [ -d "${CURRENT_DIR}/packages" ] ; then
 						if [ $? -ne 0 ] ; then
 							printf "%s [packages] 😰  Failed to install UNTRUSTED package \'%s\'. Log file can be located at %s\n" "$(date +%T)" $(basename "${PKG}") "${LOG_DIR}/bitraede-${LOG_DATE}-$(basename ${PKG}).log" | tee -a $LOG_FILE 
 						else
-							REBOOT_REQUIRED=1
 							printf "%s [packages] 👌  Installed UNTRUSTED package \'%s\'. Log file can be located at %s\n" "$(date +%T)" $(basename "${PKG}") "${PKG}.log" | tee -a $LOG_FILE 
 						fi
 					# pkg is untrusted and ALLOW_UNTRUSTED is not specified
@@ -238,7 +237,6 @@ if [ -d "${CURRENT_DIR}/packages" ] ; then
 					if [ $? -ne 0 ] ; then
 						printf "%s [packages] 😰  Failed to install package \'%s\'.\n" "$(date +%T)" $(basename "${PKG}") | tee -a $LOG_FILE 
 					else
-						REBOOT_REQUIRED=1
 						printf "%s [packages] 👏  Installed package \'%s\'.\n" "$(date +%T)" $(basename "${PKG}") | tee -a $LOG_FILE 
 					fi
 				fi
@@ -284,10 +282,12 @@ fi
 
 # Attempt to run custom SCRIPTS
 if [ -d "${CURRENT_DIR}/scripts" ] ; then
-	if [ "$(ls -1Ad ${CURRENT_DIR}/scripts/*.sh 2> /dev/null | wc -l)" -gt 0 ] ; then
-		printf "%s [scripts] 💁  Found \'.sh\' scripts. Attempting to run...\n" "$(date +%T)" | tee -a $LOG_FILE 
+	if [ "$(ls -1A ${CURRENT_DIR}/scripts/*.sh 2> /dev/null | wc -l)" -gt 0 ] ; then
+		printf "%s [scripts] 💁  Found \'.sh\' scripts in \'scripts\' folder. Attempting to run...\n" "$(date +%T)" | tee -a $LOG_FILE 
 		SH_DIR="$CURRENT_DIR/scripts/*.sh"
 		for SH in $SH_DIR ; do
+			# Check if SH is a directory or file
+			# If file, is it executable
 			if [ \( -x $SH \) -a ! \( -d $SH \) ] ; then
 				sh $SH >> "${LOG_DIR}/bitraede-${LOG_DATE}-$(basename ${SH}).log" 2>&1
 				if [ $? -eq 0 ] ; then
@@ -296,7 +296,7 @@ if [ -d "${CURRENT_DIR}/scripts" ] ; then
 					printf "%s [scripts] 😰  Script \'%s\' reported it was not executed successfully. Log file can be located at %s\n" "$(date +%T)" $(basename "$SH") "${SH_DIR}/bitraede-${LOG_DATE}-$(basename ${SH}).log" | tee -a $LOG_FILE
 				fi
 			else
-				printf "%s [scripts] 👿  Script \'%s\' was not executed as it was wither a directory or a file that was not marked as executable.\n" "$(date +%T)" $(basename "$SH") | tee -a $LOG_FILE
+				printf "%s [scripts] 👿  Script \'%s\' was not executed as it was wither a directory or a file that was not executable.\n" "$(date +%T)" $(basename "$SH") | tee -a $LOG_FILE
 			fi
 		done
 	else
@@ -306,8 +306,52 @@ else
 	printf "%s [scripts] 🤷  \'scripts\' folder does not exist. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE 
 fi
 
-## TODO: `system`
+## Attempt to perform system update/upgrade
+if [ -d "${CURRENT_DIR}/system" ] ; then
+	# If there are app(s) in the system folder
+	if [ "$(ls -1Ad ${CURRENT_DIR}/system/*.app 2> /dev/null | wc -l)" -gt 0 ] ; then
+		# Exactly 1 app
+		if [ "$(ls -1A ${CURRENT_DIR}/system/*.app 2> /dev/null | wc -l)" -eq 1 ] ; then
+			printf "%s [system] 💁  Found an application in \'system\' folder. Attempting to upgrade the operating system...\n" "$(date +%T)" | tee -a $LOG_FILE 
+			SYSTEM_UPGRADE_APP_DIR=`ls ${CURRENT_DIR}/system/*.app`
+			SYSTEM_UPGRADE_CLI_DIR=$SYSTEM_UPGRADE_APP_DIR/Contents/Resources/startosinstall
+			ls $SYSTEM_UPGRADE_CLI_DIR
+			if [ $? -ne 0 ] ; then
+				printf "%s [system] 🤔  System upgrade was not performed as required file \'startosinstall\' was not found. Is \'%s\' an installer for OS X 10.11 (El Capitan), macOS 10.12 (Sierra), or newer?\n" "$(date +%T)" $(basename "$SYSTEM_UPGRADE_APP_DIR") | tee -a $LOG_FILE
+			else
+				# echo A was used to agreeing the license agreement
+				echo 'A' | sudo $SYSTEM_UPGRADE_CLI_DIR --applicationpath $SYSTEM_UPGRADE_APP_DIR --volume / | tee -a $LOG_FILE
+			fi
+		else
+			printf "%s [system] 😰  System upgrade was not performed as there were more than one \'.app\' application in \'system\' folder.\n" "$(date +%T)" | tee -a $LOG_FILE
+		fi
+	else
+		# No app file, is CHECK_UPDATE toggled?
+		if [ $CHECK_UPDATE -eq 1 ] ; then
+			sudo softwareupdate -ir | tee -a $LOG_FILE
+		else
+			printf "%s [system] 🤷  CHECK_UPDATE does not exist. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE 
+		fi
+	fi
+else
+	printf "%s [system] 🤷  \'system\' folder does not exist. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE
+fi
 
-## TODO: Check is reboot is required
+# Check if reboot is required
+if [ \( $CHECK_UPDATE -eq 1 \) -o \( \( $PKG_INSTALLED -eq 1 \) -a \( $NO_REBOOT -ne 1 \) \) -o \( $REBOOT_REQUIRED -eq 1 \) ] ; then
+	printf "%s [postprocessing] 🌚  Reboot scheduled in 30 seconds. Press c to cancel.\n" "$(date +%T)" | tee -a $LOG_FILE
+	COUNTDOWN=30
+	while [ $COUNTDOWN -gt 0 ] ; then
+		echo -ne "Time to reboot: $COUNTDOWN s\033[0K\r"
+		read -rsn1 RESPONSE
+		if [ "$RESPONSE" = "c" ] ; then
+			shutdown -c
+			printf "%s [postprocessing] 😎  Reboot cancelled.\n" "$(date +%T)" | tee -a $LOG_FILE
+		fi
+		sleep 1
+		: (($COUNTDOWN--))
+	done
+fi
 
+printf "%s [postprocessing] 👋  All done!\n" "$(date +%T)" | tee -a $LOG_FILE
 # $SHELL
