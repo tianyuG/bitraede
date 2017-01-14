@@ -105,10 +105,9 @@ You can also leave shell scripts in the `scripts` folder. As mentioned before, `
 If elevated permission is required, you will be asked to authenticate with an account that has `sudo` access. You will only be asked to authenticate once during the entire lifetime of this script.
 
 ## Logs
-### `pkg` files
-Installing `pkg` files will not normally output any log. However, if `ALLOW_UNTRUSTED` was specified, all `pkg` files will write logs to // TODO
-### script output
-If specified, biträde will create a log named `bitraede.log` at `~/Library/Logs`. This file will be created if it's not already there, and every time biträde is execute, the file will be overwritten. In order to ####TODO
+biträde will create a log file named `bitraede-#DATE.log` at `~/Library/Logs`, where `#DATE` will be replaced by current date and time similar to this: `bitraede-2017-01-01-01-01.log`. In addition, if `ALLOW_UNTRUSTED` is present in `packages` folder, installing an untrusted package, successful or not, will cause biträde to create a log file named `bitraede-#DATE-#PKG.log` in `~/Library/Logs`, like `bitraede-2017-01-01-01-01-example.pkg.log`.
+
+Log files can be viewed using `Console.app`.
 
 ## FAQ
 ### Q1: Application 'can't be opened because it is from an unidentified developer'?
@@ -134,7 +133,7 @@ A5: `vst2` -> `vst3` -> `audiounits` -> `applications` -> `packages` -> `maxpack
 All operations are optional. If packages are installed or system update is performed, after the script is complete, you will be prompted to reboot with a 10-second timeout. If the packages do not require rebooting or if you simply want to postpone reboot, cancel it during the timeout. System upgrade will always result in a reboot.
 
 ### Q6: Why biträde cannot be run with `sudo`?
-A6: For security concerns. If `sudo ./bitraede.command` is allowed, everything in this script will be executed with elevated permissions, which is not only not necessary but also can be potentially dangerous, especially with custom scripts [^12]. 
+A6: For security concerns. If `sudo ./bitraede.command` is allowed, everything in this script will be executed with elevated permissions, which is not only not necessary but also can be potentially dangerous, especially with custom scripts. 
 
 ### Q7: What version of OS X/macOS can I upgrade to with biträde?
 A7: All iMacs in DISIS have OS X 10.11 installed, so it can be upgraded to macOS 10.12 or higher. biträde also utilises a tool called `startosinstall`, which was not available in OS X 10.10 installer or earlier versions.
@@ -150,10 +149,10 @@ If you have both the OS X/macOS installer and `CHECK_UPDATE` file in `system` fo
 A9: The only official way is through Mac App Store. **Do not download it from internet** as it can be manipulated (even though biträde will probably reject it as it won't pass codesigning verification). **Do not share the installer with others** as it contains an Mac App Store receipt (which can be traced back to who released the installer). 
 
 ### Q10: Why not use flags (`--reboot-required`, for example) instead of special files?
-A10: This is intentional. biträde is designed with the assumption that the maintainer may not have too much experience with UNIX, and double clicking on the script would be easier for the maintainer (rather than figuring out how to run the script with flags). It is also not practical to wait for user input as it is designed to reduce user input. That said, this script is not designed to be invoked in Terminal directly. 
+A10: This is intentional. biträde is designed with the assumption that the maintainer may not have too much experience with UNIX, and double clicking on the script would be easier for the maintainer (rather than figuring out how to run the script with flags). It is also not practical to wait for user input as it is designed to reduce user input. 
 
 ## Notes on scripting
-* Do not use scripting unless you fully understand what you are doing [^13].
+* Do not use scripting unless you fully understand what you are doing [^12].
 * If an command requires elevated permission, use `sudo` in front of the line that really needs it. Avoid using `su`. 
 * Test the script before deploying to production.
 * Scripts must use `.sh` or `.command` file extensions. UTI is not checked.
@@ -163,12 +162,12 @@ A10: This is intentional. biträde is designed with the assumption that the main
 ## Notes on upgrading
 There is no guarantee that the method I use here will be the same for future macOS versions. `startosinstall` was first spotted in OS X 10.10 installer and was since included in all OS X/macOS installers. There is an undocumented flag, `--nointeraction`, which I decided not to use, as it's not documented and there is no guarantee it won't be removed in future releases. 
 
-It is always possible to use the `createinstallmedia` tool, which is also included in recent OS X installers (10.9 and newer). This is a well-documented tool for creating OS X/macOS installing media (flash drive, for example) [^14]. 
+It is always possible to use the `createinstallmedia` tool, which is also included in recent OS X installers (10.9 and newer). This is a well-documented tool for creating OS X/macOS installing media (flash drive, for example) [^15]. 
 
 ## Notes on System Integrity Protection (SIP)
 Simply put, all applications currently installed on DISIS iMacs do not require disabling (or even temporarily disabling) SIP. Older applications, like Rogue Aomeba-maintained Soundflower, will fail to install because the installer would attempt to install an unsigned kernel extension (kext), which is explicitly forbidden under SIP [^15]. Other applications, like earlier versions of Homebrew, will fail to install becuase the installer would try to write to directories that were protected under SIP. The current versions of both applications are modified so they can be installed without disabling SIP.
 
-It is not possible to write a script to disable SIP; instead, you will need to boot to Recovery Mode to do so [^16]. 
+It is not possible to write a script to disable SIP; instead, you will need to boot to Recovery Mode to do so [^15]. 
 
 ## Legal
 ```
@@ -223,12 +222,10 @@ SOFTWARE.
 
 [^11]: [http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/](http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/)
 
-[^12]: The other reason that you should not invoke this script with `./bitraede.command` is currently part of the script cannot expand `./` to an absolute path.
+[^12]: My dad got me a computer tutoring software soon after I first used a laptop. The software featured a section, paraphrased 'DO NOT DO THIS IF YOU ARE A NEWBIE', prominently. I immediately disregarded the advise and used `FORMAT C:\` in `COMMAND.COM`. Hilarity ensues. Thanks for showing me what I shan't do, people who made that software. /s
 
-[^13]: My dad got me a computer tutoring software soon after I first used a laptop. The software featured a section, paraphrased 'DO NOT DO THIS IF YOU ARE A NEWBIE', prominently. I immediately disregarded the advise and used `FORMAT C:\` in `COMMAND.COM`. Hilarity ensues. Thanks for showing me what I shan't do, people who made that software. /s
+[^13]: For more information on `createinstallmedia`, please refer to Apple's [Help Topic #201372](https://support.apple.com/en-us/HT201372).
 
-[^14]: For more information on `createinstallmedia`, please refer to Apple's [Help Topic #201372](https://support.apple.com/en-us/HT201372).
+[^14]: It appears that Rogue Amoeba is not actively maintaining Soundflower; it offers a commercial application called Loopback which has similar functionalities. For a version of Soundflower that can be used in OS X 10.11 and above, refer to this page: [https://www.fluxforge.com/blog/soundflower-os-x-10.11-10.12-macOS-sierra/](https://www.fluxforge.com/blog/soundflower-os-x-10.11-10.12-macOS-sierra/)
 
-[^15]: It appears that Rogue Amoeba is not actively maintaining Soundflower; it offers a commercial application called Loopback which has similar functionalities. For a version of Soundflower that can be used in OS X 10.11 and above, refer to this page: [https://www.fluxforge.com/blog/soundflower-os-x-10.11-10.12-macOS-sierra/](https://www.fluxforge.com/blog/soundflower-os-x-10.11-10.12-macOS-sierra/)
-
-[^16]: For technical details of SIP, refer to Apple's [Help Topic #204899](https://support.apple.com/en-us/HT204899); to learn how to enable and disable SIP, refer to [this developer document](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html).
+[^15]: For technical details of SIP, refer to Apple's [Help Topic #204899](https://support.apple.com/en-us/HT204899); to learn how to enable and disable SIP, refer to [this developer document](https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html).
