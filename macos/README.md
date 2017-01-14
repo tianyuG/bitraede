@@ -105,7 +105,11 @@ You can also leave shell scripts in the `scripts` folder. As mentioned before, `
 If elevated permission is required, you will be asked to authenticate with an account that has `sudo` access. You will only be asked to authenticate once during the entire lifetime of this script.
 
 ## Logs
-biträde will create a log file named `bitraede-#DATE.log` at `~/Library/Logs`, where `#DATE` will be replaced by current date and time similar to this: `bitraede-2017-01-01-01-01.log`. In addition, if `ALLOW_UNTRUSTED` is present in `packages` folder, installing an untrusted package, successful or not, will cause biträde to create a log file named `bitraede-#DATE-#PKG.log` in `~/Library/Logs`, like `bitraede-2017-01-01-01-01-example.pkg.log`.
+biträde will create a log file named `bitraede-#DATE.log` at `~/Library/Logs`, where `#DATE` will be replaced by current date and time similar to this: `bitraede-2017-01-01-01-01.log`. 
+
+If `ALLOW_UNTRUSTED` is present in `packages` folder, installing an untrusted package, successful or not, will cause biträde to create a log file named `bitraede-#DATE-#PKG.log` in `~/Library/Logs`, like `bitraede-2017-01-01-01-01-example.pkg.log`.
+
+If an executable script is present in `scripts` folder, running it will cause biträde to create a log named `bitraede-#DATE-#SH.log` in `~/Library/Logs`, like `bitraede-2017-01-01-01-01-exempel.sh.log`.
 
 Log files can be viewed using `Console.app`.
 
@@ -155,7 +159,7 @@ A10: This is intentional. biträde is designed with the assumption that the main
 * Do not use scripting unless you fully understand what you are doing [^12].
 * If an command requires elevated permission, use `sudo` in front of the line that really needs it. Avoid using `su`. 
 * Test the script before deploying to production.
-* Scripts must use `.sh` or `.command` file extensions. UTI is not checked.
+* Scripts must use `.sh` file extensions. UTI is not checked.
 * In addition, scripts must be executable. biträde will not try to change file mode bits.
 * If your script requires reboot: Copy the file named `REBOOT_REQUIRED` from the `OPTIONS` folder to `scripts` folder. Bear in mind that if `.pkg` files are installed, biträde will attempt to reboot at the end anyways. The reboot will not occur immediately if system update/upgrade is requested; otherwise the script will attempt to reboot after all scripts were executed regardless of the outcome of the scripts.
 

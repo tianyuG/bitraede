@@ -27,10 +27,26 @@ REBOOT_REQUIRED=0
 
 cd $CURRENT_DIR
 
+# Start logging
+printf "bitraede log on %s\n\n\n\n\n\n>>>> FILE STRUCTURE <<<<\n%s\n%s\n\n\n\n\n\n" "$(date)" "${CURRENT_DIR}" "$(ls -alR "${CURRENT_DIR}")" > $LOG_FILE
+if [ "$(ls -1Ad ${CURRENT_DIR}/scripts/*.sh 2> /dev/null | wc -l)" -gt 0 ] ; then
+	PREPROC_SH_DIR="$CURRENT_DIR/scripts/*.sh"
+	printf ">>>> CUSTOM SCRIPTS <<<<\n" >> $LOG_FILE
+	for PREPROC_SH in $PREPROC_SH_DIR ; do
+		if [ -f $PREPROC_SH ] ; then
+			printf "In %s:\n" $PREPROC_SH >> $LOG_FILE
+			cat $PREPROC_SH 2> /dev/null >> $LOG_FILE
+			printf "\n" >> $LOG_FILE
+		fi
+	done
+	printf "\n\n\n\n\n" >> $LOG_FILE
+fi
+printf ">>>> MAINTENANCE LOGS <<<<\n" >> $LOG_FILE
+
 # Gain sudo access
-sudo printf "%s [preprocessing] 🙌  Elevate privileges acquired.\n" "$(date +%T)" | tee -a $LOG_FILE 
+sudo printf "%s [preprocessing] 🙌  Elevated privileges acquired.\n" "$(date +%T)" | tee -a $LOG_FILE 
 if [ $? -ne 0 ] ; then
-	printf "%s [preprocessing] 😰  Elevated privileges not acquired.\n\n%s [bitraede] 👋  All done!\n" "$(date +%T)" "$(date +%T)" | tee -a $LOG_FILE 
+	printf "%s [preprocessing] 😰  Elevated privileges not acquired.\n%s [bitraede] 👋  All done!\n" "$(date +%T)" "$(date +%T)" | tee -a $LOG_FILE 
 	exit
 else
 	printf "%s [preprocessing] 💡  Main log can be located at %s\n" "$(date +%T)" ${LOG_FILE} | tee -a $LOG_FILE 
@@ -137,7 +153,8 @@ fi
 # Check if source folder exists
 if [ -d "${CURRENT_DIR}/applications" ] ; then
 	# Check if source folder is empty
-	if [ "$(ls -d1 ${CURRENT_DIR}/applications/*.app 2> /dev/null | wc -l)" -ne 0 ] ; then
+	if [ "$(ls -1Ad ${CURRENT_DIR}/applications/*.app 2> /dev/null | wc -l)" -gt 0 ] ; then
+		printf "%s [applications] 💁  Found \'.app\' applications. Attempting to copy...\n" "$(date +%T)" | tee -a $LOG_FILE 
 		# Check is destination folder exists
 		if [ -d "/Applications" ] ; then
 			SRC_APP_DIR="$CURRENT_DIR/applications/*.app"
@@ -175,7 +192,7 @@ if [ -d "${CURRENT_DIR}/applications" ] ; then
 			printf "%s [applications] 😱  Could not find Applications folder.\n" "$(date +%T)" | tee -a $LOG_FILE 
 		fi
 	else
-		printf "%s [applications] 🤷  \'applications\' folder is empty. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE 
+		printf "%s [applications] 🤷  \'applications\' folder does not contain \'.app\' applications. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE 
 	fi
 else 
 	printf "%s [applications] 🤷  \'applications\' folder does not exist. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE 
@@ -186,11 +203,12 @@ fi
 # Check if source folder exists
 if [ -d "${CURRENT_DIR}/packages" ] ; then
 	# Check if source folder is empty
-	if [ "$(ls -1 ${CURRENT_DIR}/packages/*.pkg 2> /dev/null | wc -l)" ] ; then
+	if [ "$(ls -1Ad ${CURRENT_DIR}/packages/*.pkg 2> /dev/null | wc -l)" -gt 0 ] ; then
+	printf "%s [packages] 💁  Found \'.pkg\' packages. Attempting to install...\n" "$(date +%T)" | tee -a $LOG_FILE 
 		SRC_PKG_DIR="$CURRENT_DIR/packages/*.pkg"
 		for PKG in $SRC_PKG_DIR ; do
 			# Check if file is executable
-			if [ -x "${PKG}" ] ; then
+			if [ -s "${PKG}" ] ; then
 				PKG_INSTALLED=1
 				# Attempt to install a pkg file
 				# Verify certificate of the pkg file
@@ -210,7 +228,7 @@ if [ -d "${CURRENT_DIR}/packages" ] ; then
 						fi
 					# pkg is untrusted and ALLOW_UNTRUSTED is not specified
 					else
-						printf "%s [packages] 👿  UNTRUSTED package \'%s\' was not installed due to invalid code signature.\n" "$(date +%T)" $(basename "${PKG}") | tee -a $LOG_FILE 
+						printf "%s [packages] 👿  UNTRUSTED package \'%s\' was not installed as it did not have a valid code signature.\n" "$(date +%T)" $(basename "${PKG}") | tee -a $LOG_FILE 
 					fi
 				# If pkg is properly signed
 				else
@@ -229,7 +247,7 @@ if [ -d "${CURRENT_DIR}/packages" ] ; then
 			fi
 		done
 	else
-		printf "%s [packages] 🤷  \'packages\' folder is empty. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE 
+		printf "%s [packages] 🤷  \'packages\' folder does not contain \'.pkg\' packages. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE 
 	fi
 else
 	printf "%s [packages] 🤷  \'packages\' folder does not exist. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE 
@@ -264,8 +282,32 @@ else
 	printf "%s [maxpackages] 🤷  \'maxpackages\' folder does not exist. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE 
 fi
 
-## TODO: `scripts`, `system`
+# Attempt to run custom SCRIPTS
+if [ -d "${CURRENT_DIR}/scripts" ] ; then
+	if [ "$(ls -1Ad ${CURRENT_DIR}/scripts/*.sh 2> /dev/null | wc -l)" -gt 0 ] ; then
+		printf "%s [scripts] 💁  Found \'.sh\' scripts. Attempting to run...\n" "$(date +%T)" | tee -a $LOG_FILE 
+		SH_DIR="$CURRENT_DIR/scripts/*.sh"
+		for SH in $SH_DIR ; do
+			if [ \( -x $SH \) -a ! \( -d $SH \) ] ; then
+				sh $SH >> "${LOG_DIR}/bitraede-${LOG_DATE}-$(basename ${SH}).log" 2>&1
+				if [ $? -eq 0 ] ; then
+					printf "%s [scripts] 👏  Script \'%s\' reported it was executed successfully. Log file can be located at %s\n" "$(date +%T)" $(basename "$SH") "${SH_DIR}/bitraede-${LOG_DATE}-$(basename ${SH}).log" | tee -a $LOG_FILE
+				else
+					printf "%s [scripts] 😰  Script \'%s\' reported it was not executed successfully. Log file can be located at %s\n" "$(date +%T)" $(basename "$SH") "${SH_DIR}/bitraede-${LOG_DATE}-$(basename ${SH}).log" | tee -a $LOG_FILE
+				fi
+			else
+				printf "%s [scripts] 👿  Script \'%s\' was not executed as it was wither a directory or a file that was not marked as executable.\n" "$(date +%T)" $(basename "$SH") | tee -a $LOG_FILE
+			fi
+		done
+	else
+		printf "%s [packages] 🤷  \'scripts\' folder does not contain \'.sh\' scripts. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE 
+	fi
+else
+	printf "%s [scripts] 🤷  \'scripts\' folder does not exist. Skipping...\n" "$(date +%T)" | tee -a $LOG_FILE 
+fi
+
+## TODO: `system`
 
 ## TODO: Check is reboot is required
 
-$SHELL
+# $SHELL
