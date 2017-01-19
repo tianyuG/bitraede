@@ -339,13 +339,14 @@ fi
 
 # Check if reboot is required
 if [ \( $CHECK_UPDATE -eq 1 \) -o \( \( $PKG_INSTALLED -eq 1 \) -a \( $NO_REBOOT -ne 1 \) \) -o \( $REBOOT_REQUIRED -eq 1 \) ] ; then
-	printf "%s [postprocessing] 🌚  Reboot scheduled in 30 seconds. Press c to cancel.\n" "$(date +%T)" | tee -a $LOG_FILE
-	COUNTDOWN=30
+	COUNTDOWN=60
+	printf "%s [postprocessing] 🌚  Reboot scheduled in %s seconds. Press c to cancel.\n" "$(date +%T)" $COUNTDOWN | tee -a $LOG_FILE
+	sudo shutdown -r +1
 	while [ $COUNTDOWN -gt 0 ] ; then
 		echo -ne "Time to reboot: $COUNTDOWN s\033[0K\r"
 		read -rsn1 RESPONSE
 		if [ "$RESPONSE" = "c" ] ; then
-			shutdown -c
+			sudo killall shutdown
 			printf "%s [postprocessing] 😎  Reboot cancelled.\n" "$(date +%T)" | tee -a $LOG_FILE
 		fi
 		sleep 1
