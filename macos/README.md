@@ -17,69 +17,44 @@ echo hello world!
 If you are looking at the html file or have the Markdown file rendered, you won't see the backticks and `shell` mentioned above.
 
 ## Usage
-In order to run this script, it must be marked as executable. By default, double clicking on `bitraede.command` should be enough, as it has already been marked executable. 
-
-However, if you double click it and only see a terminal window flashing by or a text editor simply opens, you will need to manually mark the script to be executable [^2]. To do so, open Terminal by [^3]:
-
-* Clicking on the magnifying glass icon (the default keyboard shortcut is command-space) on top-right side of the screen, start typing 'terminal' and press return when Terminal is selected, or,
-* Open Finder and click on Application > Utilities > Terminal.app.
-
-Once Terminal is open, type in 
-
-```shell
-chmod +x␣
-```
-
-Note that the character after `+x` is a single whitespace.
-
-Then, drag the script file, `bitraede.command`, into the Terminal window. The Terminal should look similar to this:
-
-```shell
-chmod +x /Volume/flashdrive/macos/bitraede.command
-```
-
-Press return to flip the execution triads. If this script is saved on a removable device and this removable device is used amongst different Macs, you should only need to do it once.
-
-Once proper execution permission is set, double click `bitrade.command` to execute this script.
-
-**`bitraede.command` shall not be executed with elevated permission. That is to say, do not `sudo`-open this script. When elevated permission is required, you will be asked to authenticate once during the lifetime of this script.**
+Double click on the ``runme.app`` to run. You will be prompted to put in admin credentials and ``Console.app`` will show up. Click on ``~/Library/Logs/`` on sidebar and locate the log that starts with ``bitraede-``.
 
 ## File structure for macOS biträde
 ```
 bitraede	<-- Referred to as 'root folder' in this README
-|---macos
+└---macos
     |   bitraede.command
     |   README.html
     |   README.md
-    |---applications
+    └---applications
         |   (.app files OR empty)
         |   ...
-    |---audiounits
+    └---audiounits
         |   (AU plugins OR empty)
         |   ...
-    |---maxpackages
+    └---maxpackages
         |   (Max 7 packages OR empty)
         |   ...
-    |---OPTIONS
+    └---OPTIONS
         |   ALLOW_UNTRUSTED
         |   CHECK_UPDATE
         |   NO_REBOOT
         |   REBOOT_REQUIRED
-    |---pacakges
+    └---pacakges
         |   (.pkg files OR empty)
         |   ...
-    |---scripts
+    └---scripts
         |   (custom script files OR empty)
         |   (optionally, REBOOT_REQUIRED)
         |   ...
-    |---system
+    └---system
         |   (macOS installer: an .app file)
         |   (OR CHECK_UPDATE)
         |   (OR empty)
-    |---vst2
+    └---vst2
         |   (VST2 plugins OR empty)
         |   ...
-    |---vst3
+    └---vst3
         |   (VST3 plugins OR empty)
         |   ...
 ```

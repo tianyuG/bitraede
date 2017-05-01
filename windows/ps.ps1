@@ -65,29 +65,32 @@ $CURRENT_DIR = $PSScriptRoot
 Tree $CURRENT_DIR /f | Out-String | Where-Object {Write-EventLog -LogName $LOG_NAME -Source $SRC_NAME -EntryType Information -EventId 42 -Message $_}
 
 # Execute exe files in exe folder and its subfolders sequentially
-# FIXME: Doesn't work with GUI very well...
-$EXE_DIR = Get-ChildItem "$CURRENT_DIR\exe" -Recurse -Filter *.exe | Where-Object {!$_.PSIsContainer} | Measure-Object
-if ($EXE_DIR.Count -gt 0) {
-    Get-ChildItem "$CURRENT_DIR\exe" -Recurse -Filter *.exe | ForEach-Object {
-        ForEach-Object {
-            $EXE_NAME = $_.BaseName | Out-String
-            $EXE_PROC = Start-Process $_.Fullname -PassThru
-            $EXE_PROC_HNDL = $EXE_PROC.Handle
-            $EXE_PROC.WaitForExit();
-            if ($EXE_PROC.ExitCode -ne 0) {
-                # If return code is not 0
-                Write-EventLog -LogName $LOG_NAME -Source $SRC_NAME -EntryType Warning -EventId 42 -Message "Executable $($EXE_NAME.Trim()).exe exited with return code $($EXE_PROC.ExitCode)."
-                Write-Host "[exe] Executable $($EXE_NAME.Trim()).exe exited with return code $($EXE_PROC.ExitCode)."
-            } else {
-                # If return code is 0
-                Write-EventLog -LogName $LOG_NAME -Source $SRC_NAME -EntryType Information -EventId 42 -Message "Executable $($EXE_NAME.Trim()).exe exited with return code $($EXE_PROC.ExitCode)."
-            }
-        }
-    }
-    Write-Host "[exe] Done."
-} else {
-    Write-Host "[exe] 'exe' folder is empty. Skipping..."
-}
+# Not sure if I should allow exe execution as there seems to be any native ways
+# for PowerShell to run exe files with GUI... 
+#
+# $EXE_DIR = Get-ChildItem "$CURRENT_DIR\exe" -Recurse -Filter *.exe | Where-Object {!$_.PSIsContainer} | Measure-Object
+# if ($EXE_DIR.Count -gt 0) {
+#     Get-ChildItem "$CURRENT_DIR\exe" -Recurse -Filter *.exe | ForEach-Object {
+#         ForEach-Object {
+                       
+#             $EXE_NAME = $_.BaseName | Out-String
+#             $EXE_PROC = Start-Process $_.Fullname -PassThru
+#             $EXE_PROC_HNDL = $EXE_PROC.Handle
+#             $EXE_PROC.WaitForExit();
+#             if ($EXE_PROC.ExitCode -ne 0) {
+#                 # If return code is not 0
+#                 Write-EventLog -LogName $LOG_NAME -Source $SRC_NAME -EntryType Warning -EventId 42 -Message "Executable $($EXE_NAME.Trim()).exe exited with return code $($EXE_PROC.ExitCode)."
+#                 Write-Host "[exe] Executable $($EXE_NAME.Trim()).exe exited with return code $($EXE_PROC.ExitCode)."
+#             } else {
+#                 # If return code is 0
+#                 Write-EventLog -LogName $LOG_NAME -Source $SRC_NAME -EntryType Information -EventId 42 -Message "Executable $($EXE_NAME.Trim()).exe exited with return code $($EXE_PROC.ExitCode)."
+#             }
+#         }
+#     }
+#     Write-Host "[exe] Done."
+# } else {
+#     Write-Host "[exe] 'exe' folder is empty. Skipping..."
+# }
 
 
 cmd /c pause | out-null
