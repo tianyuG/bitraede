@@ -111,23 +111,20 @@ A5: `vst2` -> `vst3` -> `audiounits` -> `applications` -> `packages` -> `maxpack
 
 All operations are optional. If packages are installed or system update is performed, after the script is complete, you will be prompted to reboot with a 10-second timeout. If the packages do not require rebooting or if you simply want to postpone reboot, cancel it during the timeout. System upgrade will always result in a reboot.
 
-### Q6: Why biträde cannot be run with `sudo`?
-A6: For security concerns. If `sudo ./bitraede.command` is allowed, everything in this script will be executed with elevated permissions, which is not only not necessary but also can be potentially dangerous, especially with custom scripts. 
-
-### Q7: What version of OS X/macOS can I upgrade to with biträde?
+### Q6: What version of OS X/macOS can I upgrade to with biträde?
 A7: All iMacs in DISIS have OS X 10.11 installed, so it can be upgraded to macOS 10.12 or higher. biträde also utilises a tool called `startosinstall`, which was not available in OS X 10.10 installer or earlier versions.
 
-### Q8: What is the differences between 'update' and 'upgrade'?
+### Q7: What is the differences between 'update' and 'upgrade'?
 A8: In the scope of this README, 'update' is defined to be 'updating system software to the _current_ major version', whilst 'upgrade' is defined to be 'upgrading system software to the _lastest available_ major version'. For example, if you update an iMac with OS X 10.11.1 (El Capitan) installed, it will be updated to OS X 10.11.6, the most recent OS X 10.11 available at the time of writing; however if you choose to upgrade, it will be upgraded to macOS 10.12.2, the most recent macOS available at the time of writing. 
 
 In addition, if you choose to update the system, the software updater will also check for updates of certain system features (Digital Camera RAW Compatibility Update, for example).
 
 If you have both the OS X/macOS installer and `CHECK_UPDATE` file in `system` folder, `CHECK_UPDATE` will be ignored. 
 
-### Q9: Where can I obtain OS X/macOS installer?
+### Q8: Where can I obtain OS X/macOS installer?
 A9: The only official way is through Mac App Store. **Do not download it from internet** as it can be manipulated (even though biträde will probably reject it as it won't pass codesigning verification). **Do not share the installer with others** as it contains an Mac App Store receipt (which can be traced back to who released the installer). 
 
-### Q10: Why not use flags (`--reboot-required`, for example) instead of special files?
+### Q09: Why not use flags (`--reboot-required`, for example) instead of special files?
 A10: This is intentional. biträde is designed with the assumption that the maintainer may not have too much experience with UNIX, and double clicking on the script would be easier for the maintainer (rather than figuring out how to run the script with flags). It is also not practical to wait for user input as it is designed to reduce user input. 
 
 ## Notes on scripting

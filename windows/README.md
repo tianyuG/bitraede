@@ -23,29 +23,29 @@ In order to execute the script, double-click on `bitraede.bat`. User Access Cont
 ## File structure for Windows biträde
 ```
 bitraede	<-- Referred to as 'root folder' in this README
-|---windows
+└---windows
     |   bitraede.bat
     |   ps.ps1
     |   README.html
     |   README.md
-    |---exe
+    └---exe
         |   (exe installers OR empty)	<-- IMPORTANT: See below for usage
         |   ...
-    |---maxpackages
+    └---maxpackages
         |   (Max 7 packages OR empty)
         |   ...
-    |---msi
+    └---msi
         |   (msi installers OR empty)
         |   ...
-    |---OPTIONS
+    └---OPTIONS
         |   CHECK_UPDATE
-    |---scripts
+    └---scripts
         |   (PowerShell scripts OR empty)
         |   ...
-    |---system
+    └---system
         |   (CHECK_UPDATE OR empty)
         |   .
-    |---vst
+    └---vst
         |   (VST files for Max 7 OR empty)
         |	 ...
 ```

@@ -473,67 +473,44 @@ pre[class*="language-"] {
 
 <h2 id="toc_2">Usage</h2>
 
-<p>In order to run this script, it must be marked as executable. By default, double clicking on <code>bitraede.command</code> should be enough, as it has already been marked executable. </p>
-
-<p>However, if you double click it and only see a terminal window flashing by or a text editor simply opens, you will need to manually mark the script to be executable <sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup>. To do so, open Terminal by <sup id="fnref3"><a href="#fn3" rel="footnote">3</a></sup>:</p>
-
-<ul>
-<li>Clicking on the magnifying glass icon (the default keyboard shortcut is command-space) on top-right side of the screen, start typing &#39;terminal&#39; and press return when Terminal is selected, or,</li>
-<li>Open Finder and click on Application &gt; Utilities &gt; Terminal.app.</li>
-</ul>
-
-<p>Once Terminal is open, type in </p>
-
-<div><pre><code class="language-shell">chmod +x␣</code></pre></div>
-
-<p>Note that the character after <code>+x</code> is a single whitespace.</p>
-
-<p>Then, drag the script file, <code>bitraede.command</code>, into the Terminal window. The Terminal should look similar to this:</p>
-
-<div><pre><code class="language-shell">chmod +x /Volume/flashdrive/macos/bitraede.command</code></pre></div>
-
-<p>Press return to flip the execution triads. If this script is saved on a removable device and this removable device is used amongst different Macs, you should only need to do it once.</p>
-
-<p>Once proper execution permission is set, double click <code>bitrade.command</code> to execute this script.</p>
-
-<p><strong><code>bitraede.command</code> shall not be executed with elevated permission. That is to say, do not <code>sudo</code>-open this script. When elevated permission is required, you will be asked to authenticate once during the lifetime of this script.</strong></p>
+<p>Double click on the <code>runme.app</code> to run. You will be prompted to put in admin credentials and <code>Console.app</code> will show up. Click on <code>~/Library/Logs/</code> on sidebar and locate the log that starts with <code>bitraede-</code>.</p>
 
 <h2 id="toc_3">File structure for macOS biträde</h2>
 
 <div><pre><code class="language-none">bitraede    &lt;-- Referred to as &#39;root folder&#39; in this README
-|---macos
+└---macos
     |   bitraede.command
     |   README.html
     |   README.md
-    |---applications
+    └---applications
         |   (.app files OR empty)
         |   ...
-    |---audiounits
+    └---audiounits
         |   (AU plugins OR empty)
         |   ...
-    |---maxpackages
+    └---maxpackages
         |   (Max 7 packages OR empty)
         |   ...
-    |---OPTIONS
+    └---OPTIONS
         |   ALLOW_UNTRUSTED
         |   CHECK_UPDATE
         |   NO_REBOOT
         |   REBOOT_REQUIRED
-    |---pacakges
+    └---pacakges
         |   (.pkg files OR empty)
         |   ...
-    |---scripts
+    └---scripts
         |   (custom script files OR empty)
         |   (optionally, REBOOT_REQUIRED)
         |   ...
-    |---system
+    └---system
         |   (macOS installer: an .app file)
         |   (OR CHECK_UPDATE)
         |   (OR empty)
-    |---vst2
+    └---vst2
         |   (VST2 plugins OR empty)
         |   ...
-    |---vst3
+    └---vst3
         |   (VST3 plugins OR empty)
         |   ...</code></pre></div>
 
@@ -543,11 +520,11 @@ pre[class*="language-"] {
 
 <p>For files/folders in <code>maxpackages</code>, they will be copied to Max&#39;s packages folder in <code>/Users/Shared/Max 7/Packages</code>. No special permission should be required.</p>
 
-<p>For <code>.pkg</code> files <sup id="fnref4"><a href="#fn4" rel="footnote">4</a></sup> in <code>packages</code>, they will be executed sequencially. Elevated permission is required. Reboot will be performed at the end of the script, with a 10-second grace period. By default, biträde will refuse to install untrust packages (packages that do not carry a valid certificate, which includes packages that carry an expired certificate). In order to install untrusted packages, copy <code>ALLOW_UNTRUSTED</code> from the <code>OPTIONS</code> folder to <code>packages</code> folder. To prevent biträde from rebooting after packages are installed, copy <code>NO_REBOOT</code> from the <code>OPTIONS</code> folder to <code>packages</code> folder. If you have both <code>NO_REBOOT</code> in <code>packages</code> and <code>REBOOT_REQUIRED</code> in <code>scripts</code>, <code>NO_REBOOT</code> will be ignored.</p>
+<p>For <code>.pkg</code> files <sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup> in <code>packages</code>, they will be executed sequencially. Elevated permission is required. Reboot will be performed at the end of the script, with a 10-second grace period. By default, biträde will refuse to install untrust packages (packages that do not carry a valid certificate, which includes packages that carry an expired certificate). In order to install untrusted packages, copy <code>ALLOW_UNTRUSTED</code> from the <code>OPTIONS</code> folder to <code>packages</code> folder. To prevent biträde from rebooting after packages are installed, copy <code>NO_REBOOT</code> from the <code>OPTIONS</code> folder to <code>packages</code> folder. If you have both <code>NO_REBOOT</code> in <code>packages</code> and <code>REBOOT_REQUIRED</code> in <code>scripts</code>, <code>NO_REBOOT</code> will be ignored.</p>
 
-<p>For <code>.app</code> files <sup id="fnref5"><a href="#fn5" rel="footnote">5</a></sup> in <code>applications</code>, they will be copied to <code>/Applications</code>. Elevated permission should not be required. If the <code>.app</code> file happens to be custom installers (usually the installers have the <code>.pkg</code> extension), do not leave them in this folder. Instead, please write a shell script for them.</p>
+<p>For <code>.app</code> files <sup id="fnref3"><a href="#fn3" rel="footnote">3</a></sup> in <code>applications</code>, they will be copied to <code>/Applications</code>. Elevated permission should not be required. If the <code>.app</code> file happens to be custom installers (usually the installers have the <code>.pkg</code> extension), do not leave them in this folder. Instead, please write a shell script for them.</p>
 
-<p>A special case for the <code>.app</code> installers is macOS installation file. For macOS installer, please leave it in the <code>system</code> folder. If a macOS installer file is found, this script will attempt to upgrade OS X/macOS currently installed on the target computer to the version contained in the installer. By utilising this option, you agree to Apple Inc.&#39;s Software License Agreements <sup id="fnref6"><a href="#fn6" rel="footnote">6</a></sup> for that specific version of OS X/macOS. Elevated permission is required.</p>
+<p>A special case for the <code>.app</code> installers is macOS installation file. For macOS installer, please leave it in the <code>system</code> folder. If a macOS installer file is found, this script will attempt to upgrade OS X/macOS currently installed on the target computer to the version contained in the installer. By utilising this option, you agree to Apple Inc.&#39;s Software License Agreements <sup id="fnref4"><a href="#fn4" rel="footnote">4</a></sup> for that specific version of OS X/macOS. Elevated permission is required.</p>
 
 <p>If the file named <code>CHECK_UPDATE</code> is copied from the <code>OPTIONS</code> folder to <code>system</code> folder, this script will attempt to update the current system. The major system version will remain the same (for example, if the target Mac has OS X 10.11.1, it will update to 10.11.6 instead of the latest stable version of macOS). It will also attempt to update certain included Apple software (for example, Digital Camera RAW Compatibility Update). This option will be ignored if a macOS installer file is found in <code>system</code>; otherwise, if <code>CHECK_UPDATE</code> is present, elevated permission is required.</p>
 
@@ -571,11 +548,11 @@ pre[class*="language-"] {
 
 <h3 id="toc_6">Q1: Application &#39;can&#39;t be opened because it is from an unidentified developer&#39;?</h3>
 
-<p>A1: This is because the application is not signed with a valid developer ID and Gatekeeper prevented it from running <sup id="fnref7"><a href="#fn7" rel="footnote">7</a></sup>. If you indeed trust the publisher and the application, you can exempt it from Gatekeeper. To do so, right click (or left click whilst holding option key) on the app icon in &#39;Applications&#39; folder and choose &#39;Open&#39;. When asked &#39;Are you sure you want to open it&#39;, click &#39;Open&#39;. You will only need to do it once. Optionaly you can disable Gatekeeper altogether; however this is strongly not recommened for security reasons. See <sup id="fnref8"><a href="#fn8" rel="footnote">8</a></sup> if you really want to do that.</p>
+<p>A1: This is because the application is not signed with a valid developer ID and Gatekeeper prevented it from running <sup id="fnref5"><a href="#fn5" rel="footnote">5</a></sup>. If you indeed trust the publisher and the application, you can exempt it from Gatekeeper. To do so, right click (or left click whilst holding option key) on the app icon in &#39;Applications&#39; folder and choose &#39;Open&#39;. When asked &#39;Are you sure you want to open it&#39;, click &#39;Open&#39;. You will only need to do it once. Optionaly you can disable Gatekeeper altogether; however this is strongly not recommened for security reasons. See <sup id="fnref6"><a href="#fn6" rel="footnote">6</a></sup> if you really want to do that.</p>
 
 <h3 id="toc_7">Q2: Application &#39;is damaged and can&#39;t be opened. You should move it to the Trash&#39;?</h3>
 
-<p>A2: In most cases it means the application itself is damaged and Gatekeeper prevented it from running <sup id="fnref9"><a href="#fn9" rel="footnote">9</a></sup>. Most of the time is it best to follow the suggestion and move the application to Trash. Occasionally it is caused by execution triad for the application not set correctly. If you trust the publisher and the application, you can try to open Terminal, type <code>chmod +x␣</code> (<code>␣</code> being a whitespace), open Finder, go to &#39;Applications&#39; folder and locate the application, right click (or left click whilst holding option key) on the app, click &#39;Show Package Contents&#39;, navigate to Contents &gt; MacOS, drag the binary file (usually nemed the same as the application and has an icon resembles Terminal) to the Terminal window and press return. Then, close the Finder window and try open the application.</p>
+<p>A2: In most cases it means the application itself is damaged and Gatekeeper prevented it from running <sup id="fnref7"><a href="#fn7" rel="footnote">7</a></sup>. Most of the time is it best to follow the suggestion and move the application to Trash. Occasionally it is caused by execution triad for the application not set correctly. If you trust the publisher and the application, you can try to open Terminal, type <code>chmod +x␣</code> (<code>␣</code> being a whitespace), open Finder, go to &#39;Applications&#39; folder and locate the application, right click (or left click whilst holding option key) on the app, click &#39;Show Package Contents&#39;, navigate to Contents &gt; MacOS, drag the binary file (usually nemed the same as the application and has an icon resembles Terminal) to the Terminal window and press return. Then, close the Finder window and try open the application.</p>
 
 <h3 id="toc_8">Q3: How is the codesigning policy enforced?</h3>
 
@@ -591,7 +568,7 @@ pre[class*="language-"] {
 
 <ul>
 <li>This usually indicates the installer is corrupt.</li>
-<li>This only apply to OS X installers downloaded before 2016-02-14: Apple&#39;s updated certificate rendered them invalid <sup id="fnref10"><a href="#fn10" rel="footnote">10</a></sup>. It is possible to circumvent the check by modifying system time <sup id="fnref11"><a href="#fn11" rel="footnote">11</a></sup>, however it is recommended to download a new one from Mac App Store.</li>
+<li>This only apply to OS X installers downloaded before 2016-02-14: Apple&#39;s updated certificate rendered them invalid <sup id="fnref8"><a href="#fn8" rel="footnote">8</a></sup>. It is possible to circumvent the check by modifying system time <sup id="fnref9"><a href="#fn9" rel="footnote">9</a></sup>, however it is recommended to download a new one from Mac App Store.</li>
 </ul></li>
 </ul>
 
@@ -601,15 +578,11 @@ pre[class*="language-"] {
 
 <p>All operations are optional. If packages are installed or system update is performed, after the script is complete, you will be prompted to reboot with a 10-second timeout. If the packages do not require rebooting or if you simply want to postpone reboot, cancel it during the timeout. System upgrade will always result in a reboot.</p>
 
-<h3 id="toc_11">Q6: Why biträde cannot be run with <code>sudo</code>?</h3>
-
-<p>A6: For security concerns. If <code>sudo ./bitraede.command</code> is allowed, everything in this script will be executed with elevated permissions, which is not only not necessary but also can be potentially dangerous, especially with custom scripts. </p>
-
-<h3 id="toc_12">Q7: What version of OS X/macOS can I upgrade to with biträde?</h3>
+<h3 id="toc_11">Q6: What version of OS X/macOS can I upgrade to with biträde?</h3>
 
 <p>A7: All iMacs in DISIS have OS X 10.11 installed, so it can be upgraded to macOS 10.12 or higher. biträde also utilises a tool called <code>startosinstall</code>, which was not available in OS X 10.10 installer or earlier versions.</p>
 
-<h3 id="toc_13">Q8: What is the differences between &#39;update&#39; and &#39;upgrade&#39;?</h3>
+<h3 id="toc_12">Q7: What is the differences between &#39;update&#39; and &#39;upgrade&#39;?</h3>
 
 <p>A8: In the scope of this README, &#39;update&#39; is defined to be &#39;updating system software to the <em>current</em> major version&#39;, whilst &#39;upgrade&#39; is defined to be &#39;upgrading system software to the <em>lastest available</em> major version&#39;. For example, if you update an iMac with OS X 10.11.1 (El Capitan) installed, it will be updated to OS X 10.11.6, the most recent OS X 10.11 available at the time of writing; however if you choose to upgrade, it will be upgraded to macOS 10.12.2, the most recent macOS available at the time of writing. </p>
 
@@ -617,18 +590,18 @@ pre[class*="language-"] {
 
 <p>If you have both the OS X/macOS installer and <code>CHECK_UPDATE</code> file in <code>system</code> folder, <code>CHECK_UPDATE</code> will be ignored. </p>
 
-<h3 id="toc_14">Q9: Where can I obtain OS X/macOS installer?</h3>
+<h3 id="toc_13">Q8: Where can I obtain OS X/macOS installer?</h3>
 
 <p>A9: The only official way is through Mac App Store. <strong>Do not download it from internet</strong> as it can be manipulated (even though biträde will probably reject it as it won&#39;t pass codesigning verification). <strong>Do not share the installer with others</strong> as it contains an Mac App Store receipt (which can be traced back to who released the installer). </p>
 
-<h3 id="toc_15">Q10: Why not use flags (<code>--reboot-required</code>, for example) instead of special files?</h3>
+<h3 id="toc_14">Q09: Why not use flags (<code>--reboot-required</code>, for example) instead of special files?</h3>
 
 <p>A10: This is intentional. biträde is designed with the assumption that the maintainer may not have too much experience with UNIX, and double clicking on the script would be easier for the maintainer (rather than figuring out how to run the script with flags). It is also not practical to wait for user input as it is designed to reduce user input. </p>
 
-<h2 id="toc_16">Notes on scripting</h2>
+<h2 id="toc_15">Notes on scripting</h2>
 
 <ul>
-<li>Do not use scripting unless you fully understand what you are doing <sup id="fnref12"><a href="#fn12" rel="footnote">12</a></sup>.</li>
+<li>Do not use scripting unless you fully understand what you are doing <sup id="fnref10"><a href="#fn10" rel="footnote">10</a></sup>.</li>
 <li>If an command requires elevated permission, use <code>sudo</code> in front of the line that really needs it. Avoid using <code>su</code>. </li>
 <li>Test the script before deploying to production.</li>
 <li>Scripts must use <code>.sh</code> file extensions. UTI is not checked.</li>
@@ -636,19 +609,19 @@ pre[class*="language-"] {
 <li>If your script requires reboot: Copy the file named <code>REBOOT_REQUIRED</code> from the <code>OPTIONS</code> folder to <code>scripts</code> folder. Bear in mind that if <code>.pkg</code> files are installed, biträde will attempt to reboot at the end anyways. The reboot will not occur immediately if system update/upgrade is requested; otherwise the script will attempt to reboot after all scripts were executed regardless of the outcome of the scripts.</li>
 </ul>
 
-<h2 id="toc_17">Notes on upgrading</h2>
+<h2 id="toc_16">Notes on upgrading</h2>
 
 <p>There is no guarantee that the method I use here will be the same for future macOS versions. <code>startosinstall</code> was first spotted in OS X 10.10 installer and was since included in all OS X/macOS installers. There is an undocumented flag, <code>--nointeraction</code>, which I decided not to use, as it&#39;s not documented and there is no guarantee it won&#39;t be removed in future releases. </p>
 
-<p>It is always possible to use the <code>createinstallmedia</code> tool, which is also included in recent OS X installers (10.9 and newer). This is a well-documented tool for creating OS X/macOS installing media (flash drive, for example) <sup id="fnref13"><a href="#fn13" rel="footnote">13</a></sup>. </p>
+<p>It is always possible to use the <code>createinstallmedia</code> tool, which is also included in recent OS X installers (10.9 and newer). This is a well-documented tool for creating OS X/macOS installing media (flash drive, for example) <sup id="fnref11"><a href="#fn11" rel="footnote">11</a></sup>. </p>
 
-<h2 id="toc_18">Notes on System Integrity Protection (SIP)</h2>
+<h2 id="toc_17">Notes on System Integrity Protection (SIP)</h2>
 
 <p>Simply put, all applications currently installed on DISIS iMacs do not require disabling (or even temporarily disabling) SIP. Older applications, like Rogue Aomeba-maintained Soundflower, will fail to install because the installer would attempt to install an unsigned kernel extension (kext), which is explicitly forbidden under SIP [^15]. Other applications, like earlier versions of Homebrew, will fail to install becuase the installer would try to write to directories that were protected under SIP. The current versions of both applications are modified so they can be installed without disabling SIP.</p>
 
 <p>It is not possible to write a script to disable SIP; instead, you will need to boot to Recovery Mode to do so [^15]. </p>
 
-<h2 id="toc_19">Legal</h2>
+<h2 id="toc_18">Legal</h2>
 
 <div><pre><code class="language-none">MIT License
 
@@ -677,7 +650,7 @@ SOFTWARE.</code></pre></div>
 <li>All product names and trademarks are property of their respective owners. </li>
 </ul>
 
-<h2 id="toc_20">Tested configuration</h2>
+<h2 id="toc_19">Tested configuration</h2>
 
 <ul>
 <li>macOS Sierra Version 10.12.2 (16C67), Terminal Version 2.7.1 (388)</li>
@@ -693,51 +666,43 @@ SOFTWARE.</code></pre></div>
 </li>
 
 <li id="fn2">
-<p>Other options are currently being explored, which would make things easier. If they work.&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+<p>They are actually folders.&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn3">
-<p>Terminal.app is located in <code>/Applications/Utilities/Terminal.app</code>.&nbsp;<a href="#fnref3" rev="footnote">&#8617;</a></p>
+<p>Also actually folders. Technically &#39;directories&#39;, to be pedantic.&nbsp;<a href="#fnref3" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn4">
-<p>They are actually folders.&nbsp;<a href="#fnref4" rev="footnote">&#8617;</a></p>
+<p><a href="http://www.apple.com/legal/sla/">http://www.apple.com/legal/sla/</a>&nbsp;<a href="#fnref4" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn5">
-<p>Also actually folders. Technically &#39;directories&#39;, to be pedantic.&nbsp;<a href="#fnref5" rev="footnote">&#8617;</a></p>
+<p>For more information regarding Gatekeeper, refer to Apple&#39;s <a href="https://support.apple.com/en-us/HT202491">Help Topic #202491</a>.&nbsp;<a href="#fnref5" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn6">
-<p><a href="http://www.apple.com/legal/sla/">http://www.apple.com/legal/sla/</a>&nbsp;<a href="#fnref6" rev="footnote">&#8617;</a></p>
+<p><em>Loc. cit.</em>&nbsp;<a href="#fnref6" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn7">
-<p>For more information regarding Gatekeeper, refer to Apple&#39;s <a href="https://support.apple.com/en-us/HT202491">Help Topic #202491</a>.&nbsp;<a href="#fnref7" rev="footnote">&#8617;</a></p>
+<p><em>Loc. cit.</em>&nbsp;<a href="#fnref7" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn8">
-<p><em>Loc. cit.</em>&nbsp;<a href="#fnref8" rev="footnote">&#8617;</a></p>
+<p><a href="http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/">http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/</a>&nbsp;<a href="#fnref8" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn9">
-<p><em>Loc. cit.</em>&nbsp;<a href="#fnref9" rev="footnote">&#8617;</a></p>
+<p><a href="http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/">http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/</a>&nbsp;<a href="#fnref9" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn10">
-<p><a href="http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/">http://arstechnica.com/apple/2016/03/psa-updated-apple-certificate-means-old-os-x-installers-dont-work-anymore/</a>&nbsp;<a href="#fnref10" rev="footnote">&#8617;</a></p>
+<p>My dad got me a computer tutoring software soon after I first used a laptop. The software featured a section, paraphrased &#39;DO NOT DO THIS IF YOU ARE A NEWBIE&#39;, prominently. I immediately disregarded the advise and used <code>FORMAT C:\</code> in <code>COMMAND.COM</code>. Hilarity ensues. Thanks for showing me what I shan&#39;t do, people who made that software. /s&nbsp;<a href="#fnref10" rev="footnote">&#8617;</a></p>
 </li>
 
 <li id="fn11">
-<p><a href="http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/">http://osxdaily.com/2015/01/19/fix-os-x-install-errors-cant-be-verified-error-occurred-preparing-mac/</a>&nbsp;<a href="#fnref11" rev="footnote">&#8617;</a></p>
-</li>
-
-<li id="fn12">
-<p>My dad got me a computer tutoring software soon after I first used a laptop. The software featured a section, paraphrased &#39;DO NOT DO THIS IF YOU ARE A NEWBIE&#39;, prominently. I immediately disregarded the advise and used <code>FORMAT C:\</code> in <code>COMMAND.COM</code>. Hilarity ensues. Thanks for showing me what I shan&#39;t do, people who made that software. /s&nbsp;<a href="#fnref12" rev="footnote">&#8617;</a></p>
-</li>
-
-<li id="fn13">
-<p>For technical details of SIP, refer to Apple&#39;s <a href="https://support.apple.com/en-us/HT204899">Help Topic #204899</a>; to learn how to enable and disable SIP, refer to <a href="https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html">this developer document</a>.&nbsp;<a href="#fnref13" rev="footnote">&#8617;</a></p>
+<p>For technical details of SIP, refer to Apple&#39;s <a href="https://support.apple.com/en-us/HT204899">Help Topic #204899</a>; to learn how to enable and disable SIP, refer to <a href="https://developer.apple.com/library/content/documentation/Security/Conceptual/System_Integrity_Protection_Guide/ConfiguringSystemIntegrityProtection/ConfiguringSystemIntegrityProtection.html">this developer document</a>.&nbsp;<a href="#fnref11" rev="footnote">&#8617;</a></p>
 </li>
 
 </ol>
